@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1040481636284",
+    "project_id": "rolmascarada-f8e2d",
+    "storage_bucket": "rolmascarada-f8e2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1040481636284:android:aa0a08d256550916bfe5b9",
+        "android_client_info": {
+          "package_name": "com.example.proyectorol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1040481636284-ejs1flgfrdhbcl44kth1f3ica2diji9a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.proyectorol",
+            "certificate_hash": "2b83d7bb243ac15325b73c1470ce11a2a318097a"
+          }
+        },
+        {
+          "client_id": "1040481636284-6acmnj0ctnc0hvn6cm1o4r9gj4spkggc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCznv2f9u2tn13fcqj6ilFtwnbW0y8sJe4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1040481636284-6acmnj0ctnc0hvn6cm1o4r9gj4spkggc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

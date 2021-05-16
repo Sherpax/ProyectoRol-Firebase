@@ -1,0 +1,46 @@
+<resources>
+    <!--String relacionados con la ficha del personaje -->
+    <string-array name="naturaleza">
+        <item>Vampiro</item>
+        <item>Hombre lobo</item>
+        <item>Vampiro</item>
+        <item>Vampiro</item>
+        <item>Vampiro</item>
+        <item>Vampiro</item>
+    </string-array>
+
+    <string-array name="clan">
+        <item>Vampiro</item>
+        <item>Hombre lobo</item>
+    </string-array>
+
+    <!-- Puntos atributos -->
+    <string-array name="numJugadores">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <!--Atributos físicos, mentales... -->
+
+    <string-array name="atributosFisicos">
+        <item>Fuerza</item>
+        <item>Destreza</item>
+        <item>Resistencia</item>
+    </string-array>
+
+    <string-array name="atributosSociales">
+        <item>Carisma</item>
+        <item>Manipulacion</item>
+        <item>Apariencia</item>
+    </string-array>
+
+    <string-array name="atributosMentales">
+        <item>Percepción</item>
+        <item>Inteligencia</item>
+        <item>Astucia</item>
+    </string-array>
+
+</resources>
