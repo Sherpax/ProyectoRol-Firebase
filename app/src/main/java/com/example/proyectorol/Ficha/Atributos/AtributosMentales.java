@@ -1,4 +1,4 @@
-package com.example.proyectorol.Ficha.Atributos;
+package com.example.proyectorol.ficha.Atributos;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.example.proyectorol.Ficha.Virtudes;
+package com.example.proyectorol.ficha.Virtudes;
 
 public class Virtudes {
 

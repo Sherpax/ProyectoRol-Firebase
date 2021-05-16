@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.proyectorol.Ficha.Virtudes.Virtudes;
+import com.example.proyectorol.ficha.Virtudes.Virtudes;
 
 public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListener {
     private Virtudes virtudes;

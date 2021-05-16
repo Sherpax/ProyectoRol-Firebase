@@ -11,10 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.proyectorol.Ficha.Atributos.AtributosFisicos;
-import com.example.proyectorol.Ficha.Atributos.AtributosMentales;
-import com.example.proyectorol.Ficha.Atributos.AtributosSociales;
-import com.example.proyectorol.Ficha.ListaClases;
+import com.example.proyectorol.ficha.Atributos.AtributosFisicos;
+import com.example.proyectorol.ficha.Atributos.AtributosMentales;
+import com.example.proyectorol.ficha.Atributos.AtributosSociales;
+import com.example.proyectorol.ficha.ListaClases;
 
 //Autor: Manuel Vázquez del Pino
 public class ElegirAtributos extends AppCompatActivity implements View.OnKeyListener {

@@ -11,10 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.proyectorol.Ficha.Habilidades.HabilidadesConocimientos;
-import com.example.proyectorol.Ficha.Habilidades.HabilidadesTalentos;
-import com.example.proyectorol.Ficha.Habilidades.HabilidadesTecnicas;
-import com.example.proyectorol.Ficha.ListaClases;
+import com.example.proyectorol.ficha.Habilidades.HabilidadesConocimientos;
+import com.example.proyectorol.ficha.Habilidades.HabilidadesTalentos;
+import com.example.proyectorol.ficha.Habilidades.HabilidadesTecnicas;
+import com.example.proyectorol.ficha.ListaClases;
 
 public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyListener {
     private HabilidadesConocimientos habilidadesConocimientos;

@@ -1,4 +1,4 @@
-package com.example.proyectorol.Ficha.Habilidades;
+package com.example.proyectorol.ficha.Habilidades;
 
 //Autor: Manuel Vázquez del Pino
 public class HabilidadesTalentos {

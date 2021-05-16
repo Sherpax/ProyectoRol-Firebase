@@ -1,4 +1,4 @@
-package com.example.proyectorol.Ficha;
+package com.example.proyectorol.ficha;
 
 import java.util.ArrayList;
 

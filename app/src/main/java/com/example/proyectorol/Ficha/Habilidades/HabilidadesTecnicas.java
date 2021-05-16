@@ -1,4 +1,4 @@
-package com.example.proyectorol.Ficha.Habilidades;
+package com.example.proyectorol.ficha.Habilidades;
 
 public class HabilidadesTecnicas {
     private byte sigilo;
