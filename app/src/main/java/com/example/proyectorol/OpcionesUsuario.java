@@ -37,8 +37,8 @@ import java.util.GregorianCalendar;
 
 public class OpcionesUsuario extends AppCompatActivity {
      FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-     FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
-     DatabaseReference ref_usuario = baseDatos.getReference("Usuarios"); //Esto nos permite controlar las referencias al usuario por ID
+     private FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+     private DatabaseReference ref_usuario = baseDatos.getReference(); //Esto nos permite controlar las referencias al usuario por ID
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class OpcionesUsuario extends AppCompatActivity {
       //  img_foto = findViewById(R.id.imagenPerfil);
       //  nombreUsuario = findViewById(R.id.nomUser);
 
-        ref_usuario.setValue(user.getUid());
+        ref_usuario.push().child(user.getUid()).setValue("aa");
 
         ViewPager2 viewPager2 = findViewById(R.id.viewPager);
         viewPager2.setAdapter(new Adaptador(this));
