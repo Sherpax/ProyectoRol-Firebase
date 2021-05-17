@@ -5,10 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FichaInfoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/listFichas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Ficha" />
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/creaFicha"
+        android:layout_margin="10dp"
+        android:layout_gravity="bottom|right"
+        android:backgroundTint="@color/red"
+        android:src="@drawable/ic_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
 </FrameLayout>

@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
                             .setAvailableProviders(providers)
                             .setIsSmartLockEnabled(false)
                             .build(),SIGN_IN);
-
                 }
             }
         };
