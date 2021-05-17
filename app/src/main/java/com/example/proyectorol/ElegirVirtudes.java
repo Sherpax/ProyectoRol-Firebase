@@ -10,7 +10,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.proyectorol.ficha.ListaClases;
 import com.example.proyectorol.ficha.Virtudes.Virtudes;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListener {
     private Virtudes virtudes;
@@ -107,5 +113,14 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
             }
         }
         return true;
+    }
+
+    public void cargarFicha(View view) {
+        FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+        DatabaseReference ref_fichas = baseDatos.getReference("fichas");
+        for(Object i : ListaClases.listaAtributos){
+            ref_fichas.setValue(i);
+        }
+
     }
 }

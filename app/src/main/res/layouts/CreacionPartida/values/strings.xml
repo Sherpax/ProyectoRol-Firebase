@@ -1,17 +1,29 @@
 <resources>
     <!--String relacionados con la ficha del personaje -->
     <string-array name="naturaleza">
-        <item>Vampiro</item>
-        <item>Hombre lobo</item>
-        <item>Vampiro</item>
-        <item>Vampiro</item>
-        <item>Vampiro</item>
-        <item>Vampiro</item>
+        <item>Adicto</item>
+        <item>Ansioso de emociones</item>
+        <item>Arquitecto</item>
+        <item>Autocrata</item>
+        <item>Bellaco</item>
+        <item>Bufon</item>
+        <item>Competidor</item>
+        <item>Confabulador</item>
+        <item>Hosco</item>
+        <item>Juez</item>
+        <item>Martir</item>
+        <item>Perfeccionista</item>
     </string-array>
 
     <string-array name="clan">
-        <item>Vampiro</item>
-        <item>Hombre lobo</item>
+        <item>Brujah</item>
+        <item>Malkavian</item>
+        <item>Nosferatu</item>
+        <item>Tremere</item>
+        <item>Lasombra</item>
+        <item>Tzismice</item>
+        <item>Assamitas</item>
+        <item>Gangrel</item>
     </string-array>
 
     <!-- Puntos atributos -->
