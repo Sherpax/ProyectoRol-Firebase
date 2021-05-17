@@ -31,6 +31,7 @@ public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyLi
     //Conocimientos
     private EditText campoInformatica, campoMedicina, campoTecnologia;
     private int puntosSinCambio;
+    private ListaClases ficha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyLi
         habilidadesConocimientos = new HabilidadesConocimientos();
         habilidadesTalentos = new HabilidadesTalentos();
         habilidadesTecnicas = new HabilidadesTecnicas();
+        this.ficha = (ListaClases) getIntent().getSerializableExtra("Ficha");
     }
 
     private void inicializaCampos() {
@@ -143,21 +145,19 @@ public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyLi
         //TODO
         //Comprobamos si ha vuelto a esta pantalla despúes de haber estado en otro activity
         //Limpiamos para que siempre haya el numero exacto de clases
-        if (ListaClases.listaAtributos.size() > 0) {
-            ListaClases.listaAtributos.clear();
-        }
-        ListaClases.listaHabilidades.add(habilidadesConocimientos);
-        ListaClases.listaHabilidades.add(habilidadesTalentos);
-        ListaClases.listaHabilidades.add(habilidadesTecnicas);
+        ficha.getListaHabilidades().add(habilidadesConocimientos);
+        ficha.getListaHabilidades().add(habilidadesTalentos);
+        ficha.getListaHabilidades().add(habilidadesTecnicas);
 
         Intent intent = new Intent(this, ElegirVirtudes.class);
+        intent.putExtra("Ficha",ficha);
         startActivity(intent);
     }
 
     public void reiniciar(View view) {
-        ListaClases.listaHabilidades.remove(habilidadesConocimientos);
-        ListaClases.listaHabilidades.remove(habilidadesTalentos);
-        ListaClases.listaHabilidades.remove(habilidadesTecnicas);
+        ficha.getListaHabilidades().remove(habilidadesConocimientos);
+        ficha.getListaHabilidades().remove(habilidadesTalentos);
+        ficha.getListaHabilidades().remove(habilidadesTecnicas);
         int puntosSinCambio = 0;
 
         for (EditText txt : this.arrayCampos) {

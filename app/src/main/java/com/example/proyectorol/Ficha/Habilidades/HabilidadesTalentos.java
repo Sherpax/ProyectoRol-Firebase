@@ -1,13 +1,15 @@
 package com.example.proyectorol.ficha.Habilidades;
 
+import java.io.Serializable;
+
 //Autor: Manuel Vázquez del Pino
-public class HabilidadesTalentos {
+public class HabilidadesTalentos implements Serializable {
 
-    private byte alerta;
-    private byte atletismo;
-    private byte intimidacion;
+    private int alerta;
+    private int atletismo;
+    private int intimidacion;
 
-    public HabilidadesTalentos(byte alerta, byte atletismo, byte intimidacion) {
+    public HabilidadesTalentos(int alerta, int atletismo, int intimidacion) {
         this.alerta = alerta;
         this.atletismo = atletismo;
         this.intimidacion = intimidacion;
@@ -17,27 +19,27 @@ public class HabilidadesTalentos {
 
     }
 
-    public byte getAlerta() {
+    public int getAlerta() {
         return alerta;
     }
 
-    public void setAlerta(byte alerta) {
+    public void setAlerta(int alerta) {
         this.alerta = alerta;
     }
 
-    public byte getAtletismo() {
+    public int getAtletismo() {
         return atletismo;
     }
 
-    public void setAtletismo(byte atletismo) {
+    public void setAtletismo(int atletismo) {
         this.atletismo = atletismo;
     }
 
-    public byte getIntimidacion() {
+    public int getIntimidacion() {
         return intimidacion;
     }
 
-    public void setIntimidacion(byte intimidacion) {
+    public void setIntimidacion(int intimidacion) {
         this.intimidacion = intimidacion;
     }
 }

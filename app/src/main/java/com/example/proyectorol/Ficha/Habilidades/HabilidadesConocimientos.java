@@ -1,11 +1,13 @@
 package com.example.proyectorol.ficha.Habilidades;
 
-public class HabilidadesConocimientos {
-    private byte informatica;
-    private byte medicina;
-    private byte tecnologia;
+import java.io.Serializable;
 
-    public HabilidadesConocimientos(byte informatica, byte medicina, byte tecnologia) {
+public class HabilidadesConocimientos implements Serializable {
+    private int informatica;
+    private int medicina;
+    private int tecnologia;
+
+    public HabilidadesConocimientos(int informatica, int medicina, int tecnologia) {
         this.informatica = informatica;
         this.medicina = medicina;
         this.tecnologia = tecnologia;
@@ -15,27 +17,27 @@ public class HabilidadesConocimientos {
 
     }
 
-    public byte getInformatica() {
+    public int getInformatica() {
         return informatica;
     }
 
-    public void setInformatica(byte informatica) {
+    public void setInformatica(int informatica) {
         this.informatica = informatica;
     }
 
-    public byte getMedicina() {
+    public int getMedicina() {
         return medicina;
     }
 
-    public void setMedicina(byte medicina) {
+    public void setMedicina(int medicina) {
         this.medicina = medicina;
     }
 
-    public byte getTecnologia() {
+    public int getTecnologia() {
         return tecnologia;
     }
 
-    public void setTecnologia(byte tecnologia) {
+    public void setTecnologia(int tecnologia) {
         this.tecnologia = tecnologia;
     }
 }

@@ -42,7 +42,7 @@
                 android:text="Nombre Ficha:" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/nombreFicha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:width="200dp"

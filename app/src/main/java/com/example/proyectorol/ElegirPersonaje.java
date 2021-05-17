@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.proyectorol.ficha.ListaClases;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ElegirPersonaje extends AppCompatActivity {
+
+    com.example.proyectorol.ficha.ListaClases ficha = new ListaClases();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +67,11 @@ public class ElegirPersonaje extends AppCompatActivity {
 
     public void irAtributos(View view) {
         //Guardar datos en DB
-
+        EditText nombre= findViewById(R.id.nombreFicha);
+        ficha.setNombre(nombre.getText().toString());
         //Cargar activity
         Intent intentAtribs = new Intent(this, ElegirAtributos.class);
+        intentAtribs.putExtra("Ficha",ficha);
         startActivity(intentAtribs);
     }
 

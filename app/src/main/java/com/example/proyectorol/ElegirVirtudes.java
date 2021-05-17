@@ -1,5 +1,6 @@
 package com.example.proyectorol;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -25,6 +26,7 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
     private int totalPuntos = 7;
     private EditText campoConciencia, campoAutocontrol, campoCoraje;
     private int puntosSinCambio;
+    private ListaClases ficha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
         campoCoraje.setOnKeyListener(this);
         //Instanciamos los atributos
         virtudes = new Virtudes();
+        this.ficha = (ListaClases) getIntent().getSerializableExtra("Ficha");
     }
 
     private void actualizaContadorPuntos(int numAntes, int numNuevo) {
@@ -118,9 +121,10 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
     public void cargarFicha(View view) {
         FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
         DatabaseReference ref_fichas = baseDatos.getReference("fichas");
-        for(Object i : ListaClases.listaAtributos){
-            ref_fichas.setValue(i);
-        }
-
+        ficha.getListaVirtudes().add(virtudes);
+        ref_fichas.child(ficha.getNombre()).setValue(ficha);
+        Intent intent = new Intent(this,OpcionesUsuario.class);
+        Toast.makeText(this, "Ficha creada", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
     }
 }

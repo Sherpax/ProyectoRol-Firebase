@@ -29,6 +29,7 @@ public class ElegirAtributos extends AppCompatActivity implements View.OnKeyList
     private EditText campoCarisma, campoManipulacion, campoApariencia;
     private EditText campoPercepcion, campoInteligencia, campoAstucia;
     private int puntosSinCambio;
+    private ListaClases ficha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class ElegirAtributos extends AppCompatActivity implements View.OnKeyList
         atributosFisicos = new AtributosFisicos();
         atributosSociales = new AtributosSociales();
         atributosMentales = new AtributosMentales();
+        this.ficha = (ListaClases) getIntent().getSerializableExtra("Ficha");
     }
 
     private void inicializaCampos() {
@@ -177,9 +179,9 @@ public class ElegirAtributos extends AppCompatActivity implements View.OnKeyList
     //Incluir alertDialog?
     //TODO: Reiniciar puntos
     public void reiniciar(View view) {
-        ListaClases.listaAtributos.remove(atributosFisicos);
-        ListaClases.listaAtributos.remove(atributosMentales);
-        ListaClases.listaAtributos.remove(atributosSociales);
+        ficha.getListaAtributos().remove(atributosFisicos);
+        ficha.getListaAtributos().remove(atributosMentales);
+        ficha.getListaAtributos().remove(atributosSociales);
         int puntosSinCambio = 0;
 
         for (EditText txt : this.arrayCampos) {
@@ -206,14 +208,12 @@ public class ElegirAtributos extends AppCompatActivity implements View.OnKeyList
         //TODO: Preguntar Ángel
         //Comprobamos si ha vuelto a esta pantalla despúes de haber estado en otro activity
         //Limpiamos para que siempre haya el numero exacto de clases
-        if (ListaClases.listaAtributos.size() > 0) {
-            ListaClases.listaAtributos.clear();
-        }
-        ListaClases.listaAtributos.add(atributosFisicos);
-        ListaClases.listaAtributos.add(atributosMentales);
-        ListaClases.listaAtributos.add(atributosSociales);
+        ficha.getListaAtributos().add(atributosFisicos);
+        ficha.getListaAtributos().add(atributosMentales);
+        ficha.getListaAtributos().add(atributosSociales);
 
         Intent intent = new Intent(this, ElegirHabilidades.class);
+        intent.putExtra("Ficha",ficha);
         startActivity(intent);
     }
 }

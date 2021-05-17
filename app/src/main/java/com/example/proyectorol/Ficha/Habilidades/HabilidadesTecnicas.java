@@ -1,11 +1,13 @@
 package com.example.proyectorol.ficha.Habilidades;
 
-public class HabilidadesTecnicas {
-    private byte sigilo;
-    private byte armasFuego;
-    private byte armasMelee;
+import java.io.Serializable;
 
-    public HabilidadesTecnicas(byte sigilo, byte armasFuego, byte armasMelee) {
+public class HabilidadesTecnicas implements Serializable {
+    private int sigilo;
+    private int armasFuego;
+    private int armasMelee;
+
+    public HabilidadesTecnicas(int sigilo, int armasFuego, int armasMelee) {
         this.sigilo = sigilo;
         this.armasFuego = armasFuego;
         this.armasMelee = armasMelee;
@@ -15,27 +17,27 @@ public class HabilidadesTecnicas {
 
     }
 
-    public byte getSigilo() {
+    public int getSigilo() {
         return sigilo;
     }
 
-    public void setSigilo(byte sigilo) {
+    public void setSigilo(int sigilo) {
         this.sigilo = sigilo;
     }
 
-    public byte getArmasFuego() {
+    public int getArmasFuego() {
         return armasFuego;
     }
 
-    public void setArmasFuego(byte armasFuego) {
+    public void setArmasFuego(int armasFuego) {
         this.armasFuego = armasFuego;
     }
 
-    public byte getArmasMelee() {
+    public int getArmasMelee() {
         return armasMelee;
     }
 
-    public void setArmasMelee(byte armasMelee) {
+    public void setArmasMelee(int armasMelee) {
         this.armasMelee = armasMelee;
     }
 }
