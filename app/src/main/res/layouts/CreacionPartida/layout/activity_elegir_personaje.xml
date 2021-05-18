@@ -63,13 +63,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="20dp"
-                android:text="Naturaleza:" />
+                android:text="Clan:" />
 
             <Spinner
                 android:id="@+id/razaSpin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/naturaleza" />
+                android:entries="@array/clan" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imagenPerfil"
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="20dp"
-                android:text="Clan" />
+                android:text="Naturaleza" />
 
             <Spinner
                 android:id="@+id/spinner2"
