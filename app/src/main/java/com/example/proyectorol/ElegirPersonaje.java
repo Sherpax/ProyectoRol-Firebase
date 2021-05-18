@@ -88,7 +88,7 @@ public class ElegirPersonaje extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] naturaleza = getResources().getStringArray(R.array.naturaleza);
-                ficha.setClan(naturaleza[position]);
+                ficha.setNaturaleza(naturaleza[position]);
             }
 
             @Override

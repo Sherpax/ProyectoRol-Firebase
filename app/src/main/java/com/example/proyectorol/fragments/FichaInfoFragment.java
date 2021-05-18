@@ -11,11 +11,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.proyectorol.ElegirPersonaje;
 import com.example.proyectorol.R;
+import com.example.proyectorol.VerFicha;
 import com.example.proyectorol.ficha.ListaClases;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -83,22 +86,30 @@ public class FichaInfoFragment extends Fragment {
         ref_fichas.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                for(DataSnapshot i:snapshot.getChildren()){
-                    if(i.getValue(ListaClases.class).getUid().equals(usuario.getUid())){
-                        fichasJugador.add(i.getValue(ListaClases.class));
-                        nombreFichas.add(i.getValue(ListaClases.class).getNombre());
-                        ArrayAdapter adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,
-                                nombreFichas);
-                        listafichas.setAdapter(adaptador);
+                Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+                ListaClases fichaAux = null;
+                while(iterator.hasNext()){
+                    fichaAux = iterator.next().getValue(ListaClases.class);
+                    if(fichaAux.getUid().equals(usuario.getUid())){
+                        fichasJugador.add(fichaAux);
+                        nombreFichas.add(fichaAux.getNombre());
                     }
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
-        //La filtramos para dejar la relativa al usuario
-
+                ArrayAdapter adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,
+                            nombreFichas);
+                    listafichas.setAdapter(adaptador);
+                    listafichas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(getContext(),VerFicha.class);
+                            intent.putExtra("Ficha",fichasJugador.get(position));
+                            startActivity(intent);
+                        }
+                    });
+                }
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                }
+            });
+        }
     }
-}
