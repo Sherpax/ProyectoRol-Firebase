@@ -122,7 +122,7 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
         FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
         DatabaseReference ref_fichas = baseDatos.getReference("fichas");
         ficha.getListaVirtudes().add(virtudes);
-        ref_fichas.child(ficha.getNombre()).setValue(ficha);
+        ref_fichas.child(ficha.getNombre()+"-"+ficha.getUid()).setValue(ficha);
         Intent intent = new Intent(this,OpcionesUsuario.class);
         Toast.makeText(this, "Ficha creada", Toast.LENGTH_SHORT).show();
         startActivity(intent);

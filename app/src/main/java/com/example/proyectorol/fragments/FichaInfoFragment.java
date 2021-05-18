@@ -59,8 +59,9 @@ public class FichaInfoFragment extends Fragment {
                 Intent intent = new Intent(view.getContext(),ElegirPersonaje.class);
                 com.example.proyectorol.ficha.ListaClases ficha = new ListaClases();
                 final FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-                ficha.setEmailJugador(usuario.getEmail());
+                ficha.setUid(usuario.getUid());
                 intent.putExtra("Ficha",ficha);
+                intent.putExtra("Lista",fichasJugador);
                 startActivity(intent);
             }
         });
@@ -73,32 +74,31 @@ public class FichaInfoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ListView listafichas = getView().findViewById(R.id.listFichas);
         final FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
         DatabaseReference ref_fichas = baseDatos.getReference("fichas");
+        ArrayList<String> nombreFichas= new ArrayList<>();
         //Con esto se coge toda la info de la tabla
-        ref_fichas.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref_fichas.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                fichas = (Map<String, ListaClases>) snapshot.getValue(ListaClases.class);
+                for(DataSnapshot i:snapshot.getChildren()){
+                    if(i.getValue(ListaClases.class).getUid().equals(usuario.getUid())){
+                        fichasJugador.add(i.getValue(ListaClases.class));
+                        nombreFichas.add(i.getValue(ListaClases.class).getNombre());
+                        ArrayAdapter adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,
+                                nombreFichas);
+                        listafichas.setAdapter(adaptador);
+                    }
+                }
             }
-
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
         });
-        ArrayList<String> nombreFichas= new ArrayList<>();
         //La filtramos para dejar la relativa al usuario
-        for(Map.Entry<String,ListaClases> entry : fichas.entrySet()){
-            if(entry.getValue().getEmailJugador().equals(usuario.getEmail())){
-                fichasJugador.add(entry.getValue());
-                nombreFichas.add(entry.getKey());
-            }
-        }
-        ListView listafichas = getView().findViewById(R.id.listFichas);
-        ArrayAdapter adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,
-            nombreFichas);
-        listafichas.setAdapter(adaptador);
+
     }
 }

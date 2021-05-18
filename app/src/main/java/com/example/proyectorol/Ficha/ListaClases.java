@@ -5,25 +5,27 @@ import android.media.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.List;
 
 //Autor: Manuel Vázquez del Pino
 public class ListaClases implements Serializable {
     private String nombre;
     private String naturaleza;
     private String clan;
-    private String emailJugador;
-    private LinkedList<Object> listaAtributos = new LinkedList();
-    private LinkedList<Object> listaHabilidades = new LinkedList();
-    private LinkedList<Object> listaVirtudes = new LinkedList();
+    private String uid;
+    private List<Object> listaAtributos = new LinkedList();
+    private List<Object> listaHabilidades = new LinkedList();
+    private List<Object> listaVirtudes = new LinkedList();
 
     public ListaClases(){
     }
 
-    public ListaClases(String nombre, String naturaleza, String clan, String emailJugador, LinkedList<Object> listaAtributos, LinkedList<Object> listaHabilidades, LinkedList<Object> listaVirtudes) {
+    public ListaClases(String nombre, String naturaleza, String clan, String uid, List<Object> listaAtributos, List<Object> listaHabilidades, List<Object> listaVirtudes) {
         this.nombre = nombre;
         this.naturaleza = naturaleza;
         this.clan = clan;
-        this.emailJugador = emailJugador;
+        this.uid = uid;
         this.listaAtributos = listaAtributos;
         this.listaHabilidades = listaHabilidades;
         this.listaVirtudes = listaVirtudes;
@@ -53,35 +55,35 @@ public class ListaClases implements Serializable {
         this.clan = clan;
     }
 
-    public String getEmailJugador() {
-        return emailJugador;
+    public String getUid() {
+        return uid;
     }
 
-    public void setEmailJugador(String emailJugador) {
-        this.emailJugador = emailJugador;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public LinkedList<Object> getListaAtributos() {
+    public List<Object> getListaAtributos() {
         return listaAtributos;
     }
 
-    public void setListaAtributos(LinkedList<Object> listaAtributos) {
+    public void setListaAtributos(List<Object> listaAtributos) {
         this.listaAtributos = listaAtributos;
     }
 
-    public LinkedList<Object> getListaHabilidades() {
+    public List<Object> getListaHabilidades() {
         return listaHabilidades;
     }
 
-    public void setListaHabilidades(LinkedList<Object> listaHabilidades) {
+    public void setListaHabilidades(List<Object> listaHabilidades) {
         this.listaHabilidades = listaHabilidades;
     }
 
-    public LinkedList<Object> getListaVirtudes() {
+    public List<Object> getListaVirtudes() {
         return listaVirtudes;
     }
 
-    public void setListaVirtudes(LinkedList<Object> listaVirtudes) {
+    public void setListaVirtudes(List<Object> listaVirtudes) {
         this.listaVirtudes = listaVirtudes;
     }
 }
