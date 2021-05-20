@@ -10,8 +10,8 @@
         android:id="@+id/imageView"
         android:layout_width="405dp"
         android:layout_height="112dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/vamp_mask" />
@@ -42,7 +42,7 @@
                 android:text="Nombre Ficha:" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/nombreFicha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:width="200dp"
@@ -63,13 +63,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="20dp"
-                android:text="Naturaleza:" />
+                android:text="Clan:" />
 
             <Spinner
                 android:id="@+id/razaSpin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/naturaleza" />
+                android:entries="@array/clan" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imagenPerfil"
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="20dp"
-                android:text="Clan" />
+                android:text="Naturaleza" />
 
             <Spinner
                 android:id="@+id/spinner2"

@@ -16,6 +16,8 @@ import com.example.proyectorol.ficha.Habilidades.HabilidadesTalentos;
 import com.example.proyectorol.ficha.Habilidades.HabilidadesTecnicas;
 import com.example.proyectorol.ficha.ListaClases;
 
+import java.util.HashMap;
+
 public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyListener {
     private HabilidadesConocimientos habilidadesConocimientos;
     private HabilidadesTalentos habilidadesTalentos;
@@ -31,6 +33,7 @@ public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyLi
     //Conocimientos
     private EditText campoInformatica, campoMedicina, campoTecnologia;
     private int puntosSinCambio;
+    private ListaClases ficha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,35 @@ public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyLi
         habilidadesConocimientos = new HabilidadesConocimientos();
         habilidadesTalentos = new HabilidadesTalentos();
         habilidadesTecnicas = new HabilidadesTecnicas();
+        this.ficha = (ListaClases) getIntent().getSerializableExtra("Ficha");
+        if(ficha.getListaHabilidades().size()>0){
+            this.recuperarDatos();
+        }
+    }
+
+    public void recuperarDatos(){
+        campoAlerta.setText(Integer.toString(((HabilidadesTalentos)ficha.getListaHabilidades().get(1)).getAlerta()));
+        campoAtletismo.setText(Integer.toString(((HabilidadesTalentos)ficha.getListaHabilidades().get(1)).getAtletismo()));
+        campoIntimidacion.setText(Integer.toString(((HabilidadesTalentos)ficha.getListaHabilidades().get(1)).getIntimidacion()));
+        campoSigilo.setText(Integer.toString(((HabilidadesTecnicas)ficha.getListaHabilidades().get(2)).getSigilo()));
+        campoArmasFuego.setText(Integer.toString(((HabilidadesTecnicas)ficha.getListaHabilidades().get(2)).getArmasFuego()));
+        campoArmasMelee.setText(Integer.toString(((HabilidadesTecnicas)ficha.getListaHabilidades().get(2)).getArmasMelee()));
+        campoInformatica.setText(Integer.toString(((HabilidadesConocimientos)ficha.getListaHabilidades().get(0)).getInformatica()));
+        campoMedicina.setText(Integer.toString(((HabilidadesConocimientos)ficha.getListaHabilidades().get(0)).getMedicina()));
+        campoTecnologia.setText(Integer.toString(((HabilidadesConocimientos)ficha.getListaHabilidades().get(0)).getTecnologia()));
+        totalPuntos-= ((HabilidadesTalentos)ficha.getListaHabilidades().get(1)).getAlerta()
+            +((HabilidadesTalentos)ficha.getListaHabilidades().get(1)).getAtletismo()
+            +((HabilidadesTalentos)ficha.getListaHabilidades().get(1)).getIntimidacion()
+            +((HabilidadesTecnicas)ficha.getListaHabilidades().get(2)).getSigilo()
+            +((HabilidadesTecnicas)ficha.getListaHabilidades().get(2)).getArmasFuego()
+            +((HabilidadesTecnicas)ficha.getListaHabilidades().get(2)).getArmasMelee()
+            +((HabilidadesConocimientos)ficha.getListaHabilidades().get(0)).getInformatica()
+            +((HabilidadesConocimientos)ficha.getListaHabilidades().get(0)).getMedicina()
+            +((HabilidadesConocimientos)ficha.getListaHabilidades().get(0)).getTecnologia();
+        ficha.getListaHabilidades().remove(2);
+        ficha.getListaHabilidades().remove(1);
+        ficha.getListaHabilidades().remove(0);
+        viewPuntos.setText(textoPuntos + totalPuntos);
     }
 
     private void inicializaCampos() {
@@ -143,21 +175,19 @@ public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyLi
         //TODO
         //Comprobamos si ha vuelto a esta pantalla despúes de haber estado en otro activity
         //Limpiamos para que siempre haya el numero exacto de clases
-        if (ListaClases.listaAtributos.size() > 0) {
-            ListaClases.listaAtributos.clear();
-        }
-        ListaClases.listaHabilidades.add(habilidadesConocimientos);
-        ListaClases.listaHabilidades.add(habilidadesTalentos);
-        ListaClases.listaHabilidades.add(habilidadesTecnicas);
+        ficha.getListaHabilidades().add(habilidadesConocimientos);
+        ficha.getListaHabilidades().add(habilidadesTalentos);
+        ficha.getListaHabilidades().add(habilidadesTecnicas);
 
         Intent intent = new Intent(this, ElegirVirtudes.class);
+        intent.putExtra("Ficha",ficha);
         startActivity(intent);
     }
 
     public void reiniciar(View view) {
-        ListaClases.listaHabilidades.remove(habilidadesConocimientos);
-        ListaClases.listaHabilidades.remove(habilidadesTalentos);
-        ListaClases.listaHabilidades.remove(habilidadesTecnicas);
+        ficha.getListaHabilidades().remove(habilidadesConocimientos);
+        ficha.getListaHabilidades().remove(habilidadesTalentos);
+        ficha.getListaHabilidades().remove(habilidadesTecnicas);
         int puntosSinCambio = 0;
 
         for (EditText txt : this.arrayCampos) {
@@ -201,5 +231,11 @@ public class ElegirHabilidades extends AppCompatActivity implements View.OnKeyLi
             }
         }
         return true;
+    }
+
+    public void volver(View view) {
+        Intent intent = new Intent(this, ElegirAtributos.class);
+        intent.putExtra("Ficha",ficha);
+        startActivity(intent);
     }
 }

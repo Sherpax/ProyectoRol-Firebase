@@ -1,5 +1,6 @@
 package com.example.proyectorol;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -10,7 +11,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.proyectorol.ficha.ListaClases;
 import com.example.proyectorol.ficha.Virtudes.Virtudes;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListener {
     private Virtudes virtudes;
@@ -19,6 +26,7 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
     private int totalPuntos = 7;
     private EditText campoConciencia, campoAutocontrol, campoCoraje;
     private int puntosSinCambio;
+    private ListaClases ficha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,7 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
         campoCoraje.setOnKeyListener(this);
         //Instanciamos los atributos
         virtudes = new Virtudes();
+        this.ficha = (ListaClases) getIntent().getSerializableExtra("Ficha");
     }
 
     private void actualizaContadorPuntos(int numAntes, int numNuevo) {
@@ -107,5 +116,21 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
             }
         }
         return true;
+    }
+
+    public void cargarFicha(View view) {
+        FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+        DatabaseReference ref_fichas = baseDatos.getReference("fichas");
+        ficha.getListaVirtudes().add(virtudes);
+        ref_fichas.child(ficha.getNombre()+"-"+ficha.getUid()).setValue(ficha);
+        Intent intent = new Intent(this,OpcionesUsuario.class);
+        Toast.makeText(this, "Ficha creada", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+    }
+
+    public void volver(View view) {
+        Intent intent = new Intent(this, ElegirHabilidades.class);
+        intent.putExtra("Ficha",ficha);
+        startActivity(intent);
     }
 }

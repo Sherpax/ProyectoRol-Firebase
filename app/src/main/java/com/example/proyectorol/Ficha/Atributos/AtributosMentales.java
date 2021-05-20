@@ -3,40 +3,40 @@ package com.example.proyectorol.ficha.Atributos;
 import java.io.Serializable;
 
 public class AtributosMentales implements Serializable {
-    private byte percepcion;
-    private byte inteligencia;
-    private byte astucia;
+    private int percepcion;
+    private int inteligencia;
+    private int astucia;
 
     public AtributosMentales() {
     }
 
-    public AtributosMentales(byte percepcion, byte inteligencia, byte astucia) {
+    public AtributosMentales(int percepcion, int inteligencia, int astucia) {
         this.percepcion = percepcion;
         this.inteligencia = inteligencia;
         this.astucia = astucia;
     }
 
-    public byte getPercepcion() {
+    public int getPercepcion() {
         return percepcion;
     }
 
-    public void setPercepcion(byte percepcion) {
+    public void setPercepcion(int percepcion) {
         this.percepcion = percepcion;
     }
 
-    public byte getInteligencia() {
+    public int getInteligencia() {
         return inteligencia;
     }
 
-    public void setInteligencia(byte inteligencia) {
+    public void setInteligencia(int inteligencia) {
         this.inteligencia = inteligencia;
     }
 
-    public byte getAstucia() {
+    public int getAstucia() {
         return astucia;
     }
 
-    public void setAstucia(byte astucia) {
+    public void setAstucia(int astucia) {
         this.astucia = astucia;
     }
 }

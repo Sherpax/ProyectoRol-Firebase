@@ -3,40 +3,40 @@ package com.example.proyectorol.ficha.Atributos;
 import java.io.Serializable;
 
 public class AtributosSociales implements Serializable {
-    private byte carisma;
-    private byte manipulacion;
-    private byte apariencia;
+    private int carisma;
+    private int manipulacion;
+    private int apariencia;
 
     public AtributosSociales() {
     }
 
-    public AtributosSociales(byte carisma, byte manipulacion, byte apariencia) {
+    public AtributosSociales(int carisma, int manipulacion, int apariencia) {
         this.carisma = carisma;
         this.manipulacion = manipulacion;
         this.apariencia = apariencia;
     }
 
-    public byte getCarisma() {
+    public int getCarisma() {
         return carisma;
     }
 
-    public void setCarisma(byte carisma) {
+    public void setCarisma(int carisma) {
         this.carisma = carisma;
     }
 
-    public byte getManipulacion() {
+    public int getManipulacion() {
         return manipulacion;
     }
 
-    public void setManipulacion(byte manipulacion) {
+    public void setManipulacion(int manipulacion) {
         this.manipulacion = manipulacion;
     }
 
-    public byte getApariencia() {
+    public int getApariencia() {
         return apariencia;
     }
 
-    public void setApariencia(byte apariencia) {
+    public void setApariencia(int apariencia) {
         this.apariencia = apariencia;
     }
 }

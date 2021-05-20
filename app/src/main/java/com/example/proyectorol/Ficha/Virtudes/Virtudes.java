@@ -1,41 +1,43 @@
 package com.example.proyectorol.ficha.Virtudes;
 
-public class Virtudes {
+import java.io.Serializable;
 
-    private byte conciencia;
-    private byte autocontrol;
-    private byte coraje;
+public class Virtudes implements Serializable {
+
+    private int conciencia;
+    private int autocontrol;
+    private int coraje;
 
     public Virtudes() {
     }
 
-    public Virtudes(byte conciencia, byte autocontrol, byte coraje) {
+    public Virtudes(int conciencia, int autocontrol, int coraje) {
         this.conciencia = conciencia;
         this.autocontrol = autocontrol;
         this.coraje = coraje;
     }
 
-    public byte getConciencia() {
+    public int getConciencia() {
         return conciencia;
     }
 
-    public void setConciencia(byte conciencia) {
+    public void setConciencia(int conciencia) {
         this.conciencia = conciencia;
     }
 
-    public byte getAutocontrol() {
+    public int getAutocontrol() {
         return autocontrol;
     }
 
-    public void setAutocontrol(byte autocontrol) {
+    public void setAutocontrol(int autocontrol) {
         this.autocontrol = autocontrol;
     }
 
-    public byte getCoraje() {
+    public int getCoraje() {
         return coraje;
     }
 
-    public void setCoraje(byte coraje) {
+    public void setCoraje(int coraje) {
         this.coraje = coraje;
     }
 }
