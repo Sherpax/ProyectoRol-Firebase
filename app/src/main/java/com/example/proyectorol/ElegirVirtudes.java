@@ -127,4 +127,10 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
         Toast.makeText(this, "Ficha creada", Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
+
+    public void volver(View view) {
+        Intent intent = new Intent(this, ElegirHabilidades.class);
+        intent.putExtra("Ficha",ficha);
+        startActivity(intent);
+    }
 }

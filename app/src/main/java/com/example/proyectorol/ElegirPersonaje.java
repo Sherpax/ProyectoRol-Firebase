@@ -43,6 +43,9 @@ public class ElegirPersonaje extends AppCompatActivity {
         CircleImageView imagenRaza = findViewById(R.id.imagenPerfil);
         Spinner spinerRaza = findViewById(R.id.razaSpin);
         ficha= (ListaClases) getIntent().getSerializableExtra("Ficha");
+        if(ficha.getNombre()!=null){
+            this.recuperarDatos();
+        }
         spinerRaza.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -98,6 +101,52 @@ public class ElegirPersonaje extends AppCompatActivity {
         });
     }
 
+    public void recuperarDatos(){
+        final EditText nombre= findViewById(R.id.nombreFicha);
+        Spinner naturaleza = findViewById(R.id.spinner2);
+        Spinner spinerRaza = findViewById(R.id.razaSpin);
+        String[] clanes = getResources().getStringArray(R.array.clan);
+        String[] naturalezas = getResources().getStringArray(R.array.naturaleza);
+        CircleImageView imagenRaza = findViewById(R.id.imagenPerfil);
+        byte i=0;
+        nombre.setText(ficha.getNombre());
+        while(i<clanes.length && !clanes[i].equals(ficha.getClan())){
+            i++;
+        }
+        spinerRaza.setSelection(i);
+        switch (i){
+            case 0:
+                imagenRaza.setImageResource(R.drawable.brujah);
+                break;
+            case 1:
+                imagenRaza.setImageResource(R.drawable.malkavian);
+                break;
+            case 2:
+                imagenRaza.setImageResource(R.drawable.nosferatu);
+                break;
+            case 3:
+                imagenRaza.setImageResource(R.drawable.tremere);
+                break;
+            case 4:
+                imagenRaza.setImageResource(R.drawable.lasombra);
+                break;
+            case 5:
+                imagenRaza.setImageResource(R.drawable.tzimisce);
+                break;
+            case 6:
+                imagenRaza.setImageResource(R.drawable.assamita);
+                break;
+            case 7:
+                imagenRaza.setImageResource(R.drawable.gangrel);
+                break;
+
+        }
+        i=0;
+        while(i<naturalezas.length && !naturalezas[i].equals(ficha.getNaturaleza())){
+            i++;
+        }
+        naturaleza.setSelection(i);
+    }
 
     public void irAtributos(View view) {
         final EditText nombre= findViewById(R.id.nombreFicha);
@@ -109,7 +158,6 @@ public class ElegirPersonaje extends AppCompatActivity {
             }
         }
         if(nombreDuplicado){
-
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage("Ya posees una ficha con ese nombre de personaje. Si continuas el proceso" +
                     "con este nombre de personaje se sobreescribira tu otra ficha. ¿Deseas continuar?");

@@ -16,6 +16,8 @@ import com.example.proyectorol.ficha.Atributos.AtributosMentales;
 import com.example.proyectorol.ficha.Atributos.AtributosSociales;
 import com.example.proyectorol.ficha.ListaClases;
 
+import java.util.HashMap;
+
 //Autor: Manuel Vázquez del Pino
 public class ElegirAtributos extends AppCompatActivity implements View.OnKeyListener {
     private AtributosFisicos atributosFisicos;
@@ -49,6 +51,9 @@ public class ElegirAtributos extends AppCompatActivity implements View.OnKeyList
         atributosSociales = new AtributosSociales();
         atributosMentales = new AtributosMentales();
         this.ficha = (ListaClases) getIntent().getSerializableExtra("Ficha");
+        if(ficha.getListaAtributos().size()>0){
+            this.recuperarDatos();
+        }
     }
 
     private void inicializaCampos() {
@@ -175,6 +180,31 @@ public class ElegirAtributos extends AppCompatActivity implements View.OnKeyList
         return true;
     }
 
+    public void recuperarDatos(){
+        campoFuerza.setText(Integer.toString(((AtributosFisicos)ficha.getListaAtributos().get(0)).getFuerza()));
+        campoDestreza.setText(Integer.toString(((AtributosFisicos)ficha.getListaAtributos().get(0)).getDestreza()));
+        campoResistencia.setText(Integer.toString(((AtributosFisicos)ficha.getListaAtributos().get(0)).getResistencia()));
+        campoCarisma.setText(Integer.toString(((AtributosSociales)ficha.getListaAtributos().get(2)).getCarisma()));
+        campoManipulacion.setText(Integer.toString(((AtributosSociales)ficha.getListaAtributos().get(2)).getManipulacion()));
+        campoApariencia.setText(Integer.toString(((AtributosSociales)ficha.getListaAtributos().get(2)).getApariencia()));
+        campoPercepcion.setText(Integer.toString(((AtributosMentales)ficha.getListaAtributos().get(1)).getPercepcion()));
+        campoInteligencia.setText(Integer.toString(((AtributosMentales)ficha.getListaAtributos().get(1)).getInteligencia()));
+        campoAstucia.setText(Integer.toString(((AtributosMentales)ficha.getListaAtributos().get(1)).getAstucia()));
+        totalPuntos-=((AtributosFisicos)ficha.getListaAtributos().get(0)).getFuerza()
+                    +((AtributosFisicos)ficha.getListaAtributos().get(0)).getDestreza()
+                    +((AtributosFisicos)ficha.getListaAtributos().get(0)).getResistencia()
+                    +((AtributosSociales)ficha.getListaAtributos().get(2)).getCarisma()
+                    +((AtributosSociales)ficha.getListaAtributos().get(2)).getManipulacion()
+                    +((AtributosSociales)ficha.getListaAtributos().get(2)).getApariencia()
+                    +((AtributosMentales)ficha.getListaAtributos().get(1)).getPercepcion()
+                    +((AtributosMentales)ficha.getListaAtributos().get(1)).getInteligencia()
+                    +((AtributosMentales)ficha.getListaAtributos().get(1)).getAstucia();
+        ficha.getListaAtributos().remove(2);
+        ficha.getListaAtributos().remove(1);
+        ficha.getListaAtributos().remove(0);
+        viewPuntos.setText(textoPuntos + totalPuntos);
+    }
+
     //Reinicia todos los atributos a 0
     //Incluir alertDialog?
     //TODO: Reiniciar puntos
@@ -205,7 +235,6 @@ public class ElegirAtributos extends AppCompatActivity implements View.OnKeyList
 
     //Añadimos los atributos a la lista estática (se mantiene en memoria)
     public void aplicar(View view) {
-        //TODO: Preguntar Ángel
         //Comprobamos si ha vuelto a esta pantalla despúes de haber estado en otro activity
         //Limpiamos para que siempre haya el numero exacto de clases
         ficha.getListaAtributos().add(atributosFisicos);
@@ -213,6 +242,12 @@ public class ElegirAtributos extends AppCompatActivity implements View.OnKeyList
         ficha.getListaAtributos().add(atributosSociales);
 
         Intent intent = new Intent(this, ElegirHabilidades.class);
+        intent.putExtra("Ficha",ficha);
+        startActivity(intent);
+    }
+
+    public void volver(View view) {
+        Intent intent = new Intent(this, ElegirPersonaje.class);
         intent.putExtra("Ficha",ficha);
         startActivity(intent);
     }

@@ -20,17 +20,18 @@
         <activity android:name=".OpcionesUsuario" />
         <activity android:name=".ElegirVirtudes" />
         <activity android:name=".ElegirHabilidades" />
-        <activity android:name=".ElegirPersonaje" />
+        <activity android:name=".ElegirPersonaje" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <activity android:name=".EncontrarPartida">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".ElegirAtributos">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ElegirPersonaje" />
-        </activity>
+        <activity android:name=".ElegirAtributos"></activity>
         <activity android:name=".CreacionPartida">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
