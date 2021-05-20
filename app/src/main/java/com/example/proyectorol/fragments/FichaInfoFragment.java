@@ -1,19 +1,25 @@
 package com.example.proyectorol.fragments;
 
 
+import com.example.proyectorol.ElegirAtributos;
 import com.example.proyectorol.ElegirPersonaje;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.proyectorol.ElegirPersonaje;
 import com.example.proyectorol.R;
@@ -26,6 +32,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -106,6 +113,33 @@ public class FichaInfoFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
+                    listafichas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                            dialog.setMessage("¿Deseas eliminar la ficha?");
+                            dialog.setTitle("Eliminar Ficha");
+                            dialog.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int whiSnacch) {
+                                    startActivity(getActivity().getIntent().putExtra("RECARGA",1));
+                                    FirebaseDatabase.getInstance().getReference().child("fichas")
+                                            .child(fichasJugador.get(position).getNombre()+"-"+fichasJugador.get(position).getUid()).removeValue();
+                                    Toast.makeText(getContext(), "Ficha borrada correctamente.", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            });
+                            dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+                            dialog.show();
+                            return true;
+                        }
+                    });
+
                 }
                 @Override
                 public void onCancelled(@NonNull @NotNull DatabaseError error) {

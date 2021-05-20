@@ -39,6 +39,7 @@ public class OpcionesUsuario extends AppCompatActivity {
      FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
      private FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
      private DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()); //Esto nos permite controlar las referencias al usuario por ID
+    private int recarga;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class OpcionesUsuario extends AppCompatActivity {
         ViewPager2 viewPager2 = findViewById(R.id.viewPager);
         viewPager2.setAdapter(new Adaptador(this));
         TabLayout tabLayout = findViewById(R.id.tabLayout);
+        recarga=getIntent().getIntExtra("RECARGA",0);
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
@@ -104,7 +106,7 @@ public class OpcionesUsuario extends AppCompatActivity {
 
      //   nombreUsuario.setText(user.getDisplayName());
 
-
+    viewPager2.setCurrentItem(recarga);
     }
     //Aquí hago referencias a la BD una vez hecho el login
     private void usuarioUnico() {
