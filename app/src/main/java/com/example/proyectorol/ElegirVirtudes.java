@@ -124,6 +124,7 @@ public class ElegirVirtudes extends AppCompatActivity implements View.OnKeyListe
         ficha.getListaVirtudes().add(virtudes);
         ref_fichas.child(ficha.getNombre()+"-"+ficha.getUid()).setValue(ficha);
         Intent intent = new Intent(this,OpcionesUsuario.class);
+        intent.putExtra("RECARGA",1);
         Toast.makeText(this, "Ficha creada", Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
