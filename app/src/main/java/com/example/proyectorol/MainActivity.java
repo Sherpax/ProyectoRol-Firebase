@@ -70,16 +70,5 @@ public class MainActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
-/*
-    public void irCrearPartida(View view) {
-        Intent intent = new Intent(this, CreacionPartida.class);
-        startActivity(intent);
-    }
-
-    public void irEncontrarPartida(View view) {
-        Intent intent = new Intent(this, EncontrarPartida.class);
-        startActivity(intent);
-    }
-    */
 
 }

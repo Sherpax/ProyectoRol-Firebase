@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.proyectorol.fragments.ChatsFragment;
 import com.example.proyectorol.fragments.FichaInfoFragment;
+import com.example.proyectorol.fragments.FragmentJugadores;
 import com.example.proyectorol.fragments.SolicitudesFragment;
 import com.example.proyectorol.fragments.UsuarioFragment;
 
@@ -32,6 +33,8 @@ public class Adaptador extends FragmentStateAdapter {
                 return new ChatsFragment();
             case 3:
             return new SolicitudesFragment();
+            case 4:
+                return new FragmentJugadores();
             default:
                 return new UsuarioFragment();
         }
@@ -40,6 +43,6 @@ public class Adaptador extends FragmentStateAdapter {
     //¡¡IMPORTANTE!! Modificar esto con el número de elementos
     @Override
     public int getItemCount() {
-        return 4;
+        return 5;
     }
 }

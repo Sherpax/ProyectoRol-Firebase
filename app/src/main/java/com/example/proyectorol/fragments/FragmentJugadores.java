@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectorol.R;
-import com.example.proyectorol.adapters.AdaptadorChatList;
 import com.example.proyectorol.adapters.AdaptadorJugadores;
 import com.example.proyectorol.pojos.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,50 +30,50 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
- */
-public class ChatsFragment extends Fragment {
 
+public class FragmentJugadores extends Fragment {
 
-    public ChatsFragment() {
+    public FragmentJugadores() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ProgressBar barraProgeso;
+
+        View view = inflater.inflate(R.layout.fragment_jugadores, container, false);
+
+        //Nombre de usuario y perfil
+        TextView nombreUser = view.findViewById(R.id.nombreUser1);
+        ImageView imgPerfil = view.findViewById(R.id.imagenPerfil1);
+
         final FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
-
-        View view = inflater.inflate(R.layout.fragment_chats, container, false);
-
 
         barraProgeso = view.findViewById(R.id.barraProgreso);
 
         //Podemos hacer un shared preferences y una opción para cambiar el nombre etc
         assert usuario != null;
-
+        nombreUser.setText(usuario.getDisplayName());
+        imgPerfil.setImageResource(R.drawable.vampirito);         //CAMBIAR
 
         RecyclerView rv;
 
         final ArrayList<Usuario> usuarioArrayList =  new ArrayList<>();
-        final AdaptadorChatList adaptadorChatListd;
+        final AdaptadorJugadores adaptadorJugadores;
 
         LinearLayoutManager layoutManager;
         layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        rv = view.findViewById(R.id.rv2);
+        rv = view.findViewById(R.id.rv1);
         rv.setLayoutManager(layoutManager);
 
-        adaptadorChatListd = new AdaptadorChatList(usuarioArrayList,getContext());
+        adaptadorJugadores = new AdaptadorJugadores(usuarioArrayList,getContext());
 
-        rv.setAdapter(adaptadorChatListd);
+        rv.setAdapter(adaptadorJugadores);
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference db_ref = firebaseDatabase.getReference("usuarios");
@@ -91,7 +90,7 @@ public class ChatsFragment extends Fragment {
                         Usuario _user = dataSnapshot.getValue(Usuario.class);
                         usuarioArrayList.add(_user);
                     }
-                    adaptadorChatListd.notifyDataSetChanged();
+                    adaptadorJugadores.notifyDataSetChanged();
                 }else{
                     barraProgeso.setVisibility(View.GONE);
                     Toast.makeText(view.getContext(),

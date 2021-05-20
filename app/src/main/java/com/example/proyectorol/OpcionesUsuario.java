@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectorol.adapters.Adaptador;
+import com.example.proyectorol.pojos.Estado;
 import com.example.proyectorol.pojos.Usuario;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,12 +34,17 @@ import com.google.firebase.database.core.UserWriteRecord;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
 
 public class OpcionesUsuario extends AppCompatActivity {
      FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
      private FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
      private DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()); //Esto nos permite controlar las referencias al usuario por ID
+     private DatabaseReference ref_solicitudes_contador = baseDatos.getReference("contador").child(user.getUid());
+     private DatabaseReference ref_estados = baseDatos.getReference("estado").child(user.getUid());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,18 +77,43 @@ public class OpcionesUsuario extends AppCompatActivity {
                             break;
                         }
                         case 3: {
-                            tab.setText("Solicitudes");
+                            tab.setText("Partidas");
+                            tab.setIcon(R.drawable.ic_gruposchat);
+
+                            break;
+                        }
+                        case 4:
+                            tab.setText("Jugadores");
                             tab.setIcon(R.drawable.ic_solicitudes);
-                            BadgeDrawable badgeDrawable = tab.getOrCreateBadge();
+                            tab.setIcon(R.drawable.ic_jugadores);
+
+                            final BadgeDrawable badgeDrawable = tab.getOrCreateBadge();
                             //Añadimos el número de peticiones por aceptar etc
                             badgeDrawable.setBackgroundColor(
                                     ContextCompat.getColor(getApplicationContext(),R.color.colorAccent)
                             );
-                            badgeDrawable.setVisible(true);
-                            //Modificar esto con el número de solicitudes real
-                            badgeDrawable.setNumber(1);
+                            //Esto muestra el número de solicitudes pendientes real
+                            ref_solicitudes_contador.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                    if(snapshot.exists()){
+                                        Integer valor = snapshot.getValue(Integer.class);
+                                        badgeDrawable.setVisible(true);
+                                        //No mostramos el icono si no hay solicitudes, lo mostramos solo si hay
+                                        if(valor.equals("0")){
+                                            badgeDrawable.setVisible(false);
+                                        }else{
+                                            badgeDrawable.setNumber(valor);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                }
+                            });
                             break;
-                        }
                     }
             }
         });
@@ -96,6 +127,9 @@ public class OpcionesUsuario extends AppCompatActivity {
                 //Esto elimina el número de solicitudes cuando pulsamos sobre él
                 BadgeDrawable badgeDrawable = tabLayout.getTabAt(position).getOrCreateBadge();
                 badgeDrawable.setVisible(false);
+                if(position == 2){
+                    reiniciarContador();
+                }
             }
         });
 
@@ -106,6 +140,76 @@ public class OpcionesUsuario extends AppCompatActivity {
 
 
     }
+
+
+    private void reiniciarContador() {
+        ref_solicitudes_contador.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    ref_solicitudes_contador.setValue(0);
+                    Toast.makeText(OpcionesUsuario.this,
+                            "Contador a 0", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        estadoUsuario("conectado");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        estadoUsuario("desconectado");
+        //Necesitamos generar una fecha de la última conexión
+        getUltimaFecha();
+    }
+    //Obtenemos la última fecha (horas,min)
+    private void getUltimaFecha() {
+        final GregorianCalendar calendario = new GregorianCalendar();
+        final SimpleDateFormat tiempo = new SimpleDateFormat(("HH:mm"));
+        final SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");
+
+        ref_estados.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ref_estados.child("fecha").setValue(fecha.format(calendario.getTime()));
+                ref_estados.child("hora").setValue(tiempo.format(calendario.getTime()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    //Para modificar los estados del usuario
+    private void estadoUsuario(String estado){
+        ref_estados.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Estado est = new Estado(estado,"","");
+                ref_estados.setValue(est);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
     //Aquí hago referencias a la BD una vez hecho el login
     private void usuarioUnico() {
         //Lo hacemos una sola vez para evitar bucle de registros (en caso de usar push)
@@ -116,15 +220,15 @@ public class OpcionesUsuario extends AppCompatActivity {
                 if(!snapshot.exists()){
                     Usuario _user = new Usuario();
                     _user.setId(user.getUid());
-                    _user.setNombre(user.getDisplayName());
+                    _user.setNombre(user.getDisplayName()); //TODO: Cambiar a nombre de usuario que se quiera usar (limitar length y lowercase)
                     _user.setNick("Probando");
                     _user.setEmail(user.getEmail());
                     _user.setFoto(user.getPhotoUrl().toString());
                     _user.setEstado("Conectado"); //Modificar
                     _user.setFecha("16/05/2021"); //Modificar
                     _user.setHora("21:12");
-                    _user.setNuevosMensajes(1);
-                    _user.setSolicitudMensajes(2);
+                    _user.setNuevosMensajes(0);
+                    _user.setSolicitudMensajes(0);
                     //Guardamos los cambios
                     ref_usuario.setValue(_user);
                     Toast.makeText(OpcionesUsuario.this, "Yeah", Toast.LENGTH_SHORT).show();

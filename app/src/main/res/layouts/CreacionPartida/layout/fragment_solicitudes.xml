@@ -5,10 +5,26 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SolicitudesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Solicitudes" />
+    <Button
+        android:id="@+id/botAmistades"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:backgroundTint="@color/green"
+        android:drawableLeft="@drawable/ic_checked"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Amigo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    //CUIDADO CON CENTER|CENTER
+    <ProgressBar
+        android:id="@+id/barraProgreso"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </ProgressBar>
 
 </FrameLayout>
