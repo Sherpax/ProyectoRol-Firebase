@@ -32,10 +32,10 @@ public class UsuarioFragment extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
     private DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()).child("nombre"); //Esto nos permite controlar las referencias al usuario por ID
+
     public UsuarioFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

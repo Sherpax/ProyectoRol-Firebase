@@ -139,7 +139,7 @@ public class OpcionesUsuario extends AppCompatActivity {
                 //Esto elimina el número de solicitudes cuando pulsamos sobre él
                 BadgeDrawable badgeDrawable = tabLayout.getTabAt(position).getOrCreateBadge();
                 badgeDrawable.setVisible(false);
-                if(position == 2){
+                if(position == 4){
                     reiniciarContador();
                 }
             }
@@ -199,8 +199,6 @@ public class OpcionesUsuario extends AppCompatActivity {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     ref_solicitudes_contador.setValue(0);
-                    Toast.makeText(OpcionesUsuario.this,
-                            "Contador a 0", Toast.LENGTH_SHORT).show();
                 }
             }
 
