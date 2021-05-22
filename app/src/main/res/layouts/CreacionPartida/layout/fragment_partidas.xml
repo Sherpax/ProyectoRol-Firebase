@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.PartidasFragment">
+
+
+    <LinearLayout
+        android:id="@+id/linGrupos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_grupos_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/botCrearGrupo"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/linGrupos"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="7dp"
+        android:layout_marginRight="7dp"
+        android:backgroundTint="@color/green"
+        android:src="@drawable/ic_add"
+        android:layout_height="match_parent">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    //CUIDADO CON CENTER|CENTER
+    <ProgressBar
+        android:id="@+id/barraProgreso"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </ProgressBar>
+
+
+</FrameLayout>

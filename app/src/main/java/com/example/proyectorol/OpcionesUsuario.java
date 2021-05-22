@@ -155,9 +155,7 @@ public class OpcionesUsuario extends AppCompatActivity {
             AlertDialog.Builder bulder2 = new AlertDialog.Builder(OpcionesUsuario.this);
             bulder2.setTitle("Cambiar Nombre").setView(R.layout.op_cambiar_nombe)
                     .setPositiveButton("Aplicar", null);
-//                                    @Override
-//
-//                                });
+
             AlertDialog dialog2 = bulder2.create();
             dialog2.setOnShowListener(new DialogInterface.OnShowListener() {
                 @Override
@@ -349,9 +347,7 @@ public class OpcionesUsuario extends AppCompatActivity {
                                 bulder2.setTitle("Cambiar Nombre").setView(R.layout.op_cambiar_nombe)
                                         .setPositiveButton("Aplicar", null)
                                         .setNegativeButton("Cancelar",null);
-//                                    @Override
-//
-//                                });
+
                                 AlertDialog dialog2 = bulder2.create();
                                 dialog2.setOnShowListener(new DialogInterface.OnShowListener() {
                                     @Override

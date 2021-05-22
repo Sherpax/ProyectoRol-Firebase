@@ -149,8 +149,6 @@ public class Mensajes extends AppCompatActivity {
                         //Reiniciamos el EditText para enviar el siguiente mensaje
                         txt_Mensaje.setText("");
                     }
-
-
                 }
             }
         });

@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.example.proyectorol.fragments.ChatsFragment;
 import com.example.proyectorol.fragments.FichaInfoFragment;
 import com.example.proyectorol.fragments.FragmentJugadores;
-import com.example.proyectorol.fragments.SolicitudesFragment;
+import com.example.proyectorol.fragments.PartidasFragment;
 import com.example.proyectorol.fragments.UsuarioFragment;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +32,7 @@ public class Adaptador extends FragmentStateAdapter {
             case 2:
                 return new ChatsFragment();
             case 3:
-            return new SolicitudesFragment();
+            return new PartidasFragment();
             case 4:
                 return new FragmentJugadores();
             default:

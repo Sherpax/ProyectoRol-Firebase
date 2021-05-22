@@ -39,7 +39,7 @@
         <activity android:name=".CreacionPartida">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".OpcionesUsuario"/>
         </activity>
         <activity
             android:name=".MainActivity"

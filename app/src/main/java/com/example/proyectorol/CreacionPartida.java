@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class CreacionPartida extends AppCompatActivity {
     private EditText nombrePartida, password;
@@ -32,6 +33,7 @@ public class CreacionPartida extends AppCompatActivity {
         partidaPrivada = findViewById(R.id.rPrivado);
         //Hacemos que esté público seleccionado por defecto
         partidaPublica.setChecked(true);
+
     }
 
     public void tipoPartida(View view) {
