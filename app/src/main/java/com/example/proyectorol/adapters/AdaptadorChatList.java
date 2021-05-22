@@ -1,6 +1,8 @@
 package com.example.proyectorol.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyectorol.Mensajes;
 import com.example.proyectorol.R;
 import com.example.proyectorol.pojos.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +38,7 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.vi
      Context context;
      FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
      FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
-
+     SharedPreferences sPref;
     public AdaptadorChatList(List<Usuario> usuarioList, Context context) {
         this.usuarioList = usuarioList;
         this.context = context;
@@ -122,7 +125,47 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.vi
 
             }
         });
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sPref = v.getContext().getSharedPreferences("usuario_sp",Context.MODE_PRIVATE);
+
+                final SharedPreferences.Editor editor = sPref.edit();
+
+                final DatabaseReference db_ref = baseDatos.getReference("EstadoSolicitudes")
+                        .child(fUser.getUid())
+                        .child(usuarios.getId())
+                        .child("idchat");
+
+                db_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        String id_unico = snapshot.getValue(String.class);
+                        if(snapshot.exists()){
+                            Intent intent = new Intent(v.getContext(), Mensajes.class);
+                            intent.putExtra("nombre",usuarios.getNombre());
+                            //intent.putExtra("img_user",usuarios.getFoto());
+                            intent.putExtra("id_user",usuarios.getId());
+                            intent.putExtra("id_unico",id_unico);
+                            editor.putString("usuario_sp",usuarios.getId());
+                            editor.apply();
+                            v.getContext().startActivity(intent);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
+
     }
+
+
 
     @Override
     public int getItemCount() {

@@ -69,7 +69,7 @@ public class ChatsFragment extends Fragment {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        rv = view.findViewById(R.id.rv2);
+        rv = view.findViewById(R.id.rv1);
         rv.setLayoutManager(layoutManager);
 
         adaptadorChatListd = new AdaptadorChatList(usuarioArrayList,getContext());

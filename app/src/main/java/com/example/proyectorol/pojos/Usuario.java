@@ -15,6 +15,10 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Usuario(String id, String nombre, String nick, String email, String foto, String fecha, String hora, String estado, int solicitudAmistad, int nuevosMensajes) {
         this.id = id;
         this.nombre = nombre;

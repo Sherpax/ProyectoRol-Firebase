@@ -1,15 +1,21 @@
 package com.example.proyectorol;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +44,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OpcionesUsuario extends AppCompatActivity {
      FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -45,14 +53,16 @@ public class OpcionesUsuario extends AppCompatActivity {
      private DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()); //Esto nos permite controlar las referencias al usuario por ID
      private DatabaseReference ref_solicitudes_contador = baseDatos.getReference("contador").child(user.getUid());
      private DatabaseReference ref_estados = baseDatos.getReference("estado").child(user.getUid());
+     private EditText txt_nombre;
+     private View inflatedView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opciones_usuario);
       //  img_foto = findViewById(R.id.imagenPerfil);
-      //  nombreUsuario = findViewById(R.id.nomUser);
 
-        //ref_usuario.push().child(user.getUid()).setValue("aa");
+        inflatedView = getLayoutInflater().inflate(R.layout.op_cambiar_nombe, null, false);
+        txt_nombre = inflatedView.findViewById(R.id.txtcambiaNombre);
 
         ViewPager2 viewPager2 = findViewById(R.id.viewPager);
         viewPager2.setAdapter(new Adaptador(this));
@@ -136,7 +146,28 @@ public class OpcionesUsuario extends AppCompatActivity {
 
         usuarioUnico();
 
-     //   nombreUsuario.setText(user.getDisplayName());
+        SharedPreferences sPrefs = getSharedPreferences("fLogin",MODE_PRIVATE);
+
+        if(sPrefs.getBoolean("fLogin",true)){
+            AlertDialog.Builder bulder2 = new AlertDialog.Builder(OpcionesUsuario.this);
+            bulder2.setTitle("Cambiar Nombre").
+                    setView(R.layout.op_cambiar_nombe).setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Map<String, Object> hasMap = new HashMap<>();
+                    hasMap.put("nombre",txt_nombre.getText().toString());
+                    ref_usuario.updateChildren(hasMap);
+                    Toast.makeText(OpcionesUsuario.this,
+                            txt_nombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            AlertDialog dialog2 = bulder2.create();
+            dialog2.show();
+            SharedPreferences.Editor editor;
+            editor = sPrefs.edit();
+            editor.putBoolean("fLogin",false);
+            editor.apply();
+        }
 
 
     }
@@ -199,7 +230,7 @@ public class OpcionesUsuario extends AppCompatActivity {
         ref_estados.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Estado est = new Estado(estado,"","");
+                Estado est = new Estado(estado,"","","");
                 ref_estados.setValue(est);
             }
 
@@ -253,24 +284,71 @@ public class OpcionesUsuario extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.cerrarSesion:
-                AuthUI.getInstance().signOut(this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull @NotNull Task<Void> task) {
-                                finish();
-                                Toast.makeText(OpcionesUsuario.this,
-                                        "Sesión cerrada", Toast.LENGTH_SHORT).show();
-                                irMainActivity();
-                            }
-                        });
+                cerrarSesion();
             break;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    //Devuelve al mainActivity al cerrar sesión
     private void irMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+    //Permite cerrar la sesión
+    private void cerrarSesion(){
+        AuthUI.getInstance().signOut(this)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull @NotNull Task<Void> task) {
+                        finish();
+                        Toast.makeText(OpcionesUsuario.this,
+                                "Sesión cerrada", Toast.LENGTH_SHORT).show();
+                        irMainActivity();
+                    }
+                });
+    }
+
+    //Abre el diálogo que muestra las posibles opciones del usuario al hacer click sobre el cardView
+    public void abrirOpcionesUsuario(View view) {
+
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(OpcionesUsuario.this);
+        builder
+                .setTitle("Opciones Perfil")
+                .setItems(R.array.OpcionesUsuario, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                AlertDialog.Builder bulder2 = new AlertDialog.Builder(OpcionesUsuario.this);
+                                bulder2.setTitle("Cambiar Nombre").
+                                        setView(R.layout.op_cambiar_nombe).setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Map<String, Object> hasMap = new HashMap<>();
+                                        hasMap.put("nombre",txt_nombre.getText().toString());
+                                        ref_usuario.updateChildren(hasMap);
+                                        Toast.makeText(OpcionesUsuario.this,
+                                                txt_nombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                AlertDialog dialog2 = bulder2.create();
+                                dialog2.show();
+                                break;
+                            case 1:
+                                cerrarSesion();
+                                break;
+                        }
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+
+
 }

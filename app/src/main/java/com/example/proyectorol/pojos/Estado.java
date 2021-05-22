@@ -1,7 +1,7 @@
 package com.example.proyectorol.pojos;
 
 public class Estado {
-    String estado,fecha,hora;
+    String estado,fecha,hora, chatcon;
 
     public String getEstado() {
         return estado;
@@ -27,10 +27,19 @@ public class Estado {
         this.hora = hora;
     }
 
-    public Estado(String estado, String fecha, String hora) {
+    public Estado(String estado, String fecha, String hora, String chatcon) {
         this.estado = estado;
         this.fecha = fecha;
         this.hora = hora;
+        this.chatcon = chatcon;
+    }
+
+    public String getChatcon() {
+        return chatcon;
+    }
+
+    public void setChatcon(String chatcon) {
+        this.chatcon = chatcon;
     }
 
     public Estado() {

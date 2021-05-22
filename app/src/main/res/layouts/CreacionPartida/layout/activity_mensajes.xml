@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Mensajes">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:background="@color/colorPrimary"
+            android:theme="@style/MenuStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+         <TextView
+             android:shadowColor="#000000"
+             android:shadowRadius="2"
+             android:shadowDx="1"
+             android:shadowDy="2"
+             android:layout_marginLeft="10dp"
+             android:textColor="@color/white"
+             android:text="Nombre user"
+             android:textSize="17dp"
+             android:id="@+id/nombreUser"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+
+         </TextView>
+
+          <ImageView
+              android:id="@+id/icon_conectado"
+              android:visibility="gone"
+              android:layout_marginLeft="16dp"
+              android:src="@drawable/ic_estadoconectado"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+          </ImageView>
+
+            <ImageView
+                android:id="@+id/icon_desconectado"
+                android:visibility="gone"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/ic_estadodesconectado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </ImageView>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv1"
+        android:layout_below="@id/appbar"
+        android:layout_above="@id/relMensajes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/relMensajes"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/txt_Mensaje"
+            android:layout_centerVertical="true"
+            android:hint="Escribe un mensaje..."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></EditText>
+
+        <ImageButton
+            android:id="@+id/enviarMensaje"
+            android:background="@drawable/ic_send"
+            android:layout_alignParentEnd="true"
+            android:layout_width="35dp"
+            android:layout_height="35dp"></ImageButton>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

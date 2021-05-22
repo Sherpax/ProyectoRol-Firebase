@@ -1,6 +1,8 @@
 package com.example.proyectorol.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyectorol.Mensajes;
 import com.example.proyectorol.R;
+import com.example.proyectorol.pojos.Solicitudes;
 import com.example.proyectorol.pojos.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +39,7 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
      Context context;
      FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
      FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
-
+     SharedPreferences sPref;
     public AdaptadorJugadores(List<Usuario> usuarioList, Context context) {
         this.usuarioList = usuarioList;
         this.context = context;
@@ -123,7 +127,10 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
                 db_ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                            db_ref.child(usuarios.getId()).child("estado").setValue("enviado");
+
+                        Solicitudes sol = new Solicitudes("enviado","");
+
+                            db_ref.child(usuarios.getId()).setValue(sol);
                     }
 
                     @Override
@@ -138,7 +145,8 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
                 db_ref2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                            db_ref2.child(fUser.getUid()).child("estado").setValue("solicitudPendiente");
+                        Solicitudes sol = new Solicitudes("solicitudPendiente","");
+                            db_ref2.child(fUser.getUid()).setValue(sol);
                     }
 
                     @Override
@@ -178,6 +186,8 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
         holder.botAceptarSolicitud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String idchat = ref_botones.push().getKey();
+
                 final DatabaseReference db_ref = baseDatos.getReference("EstadoSolicitudes")
                         .child(usuarios.getId())
                         .child(fUser.getUid());
@@ -185,7 +195,8 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
                 db_ref.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        db_ref.child("estado").setValue("amigos");
+                        Solicitudes sol = new Solicitudes("amigos",idchat);
+                        db_ref.setValue(sol);
                     }
 
                     @Override
@@ -201,7 +212,8 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
                 db_ref2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        db_ref2.child("estado").setValue("amigos");
+                        Solicitudes sol = new Solicitudes("amigos",idchat);
+                        db_ref2.setValue(sol);
                     }
 
                     @Override
@@ -209,6 +221,46 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
 
                     }
                 });
+            }
+        });
+
+        holder.botAmigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                sPref = v.getContext().getSharedPreferences("usuario_sp",Context.MODE_PRIVATE);
+
+                final SharedPreferences.Editor editor = sPref.edit();
+
+                final DatabaseReference db_ref = baseDatos.getReference("EstadoSolicitudes")
+                        .child(fUser.getUid())
+                        .child(usuarios.getId())
+                        .child("idchat");
+
+                db_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        String id_unico = snapshot.getValue(String.class);
+                        if(snapshot.exists()){
+                            Intent intent = new Intent(v.getContext(), Mensajes.class);
+                            intent.putExtra("nombre",usuarios.getNombre());
+                            //intent.putExtra("img_user",usuarios.getFoto());
+                            intent.putExtra("id_user",usuarios.getId());
+                            intent.putExtra("id_unico",id_unico);
+                            editor.putString("usuario_sp",usuarios.getId());
+                            editor.apply();
+                            v.getContext().startActivity(intent);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
             }
         });
 

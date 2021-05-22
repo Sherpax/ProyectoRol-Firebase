@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoRol"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Mensajes">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".OpcionesUsuario"/>
+        </activity>
         <activity android:name=".VerFicha">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -20,18 +25,17 @@
         <activity android:name=".OpcionesUsuario" />
         <activity android:name=".ElegirVirtudes" />
         <activity android:name=".ElegirHabilidades" />
-        <activity android:name=".ElegirPersonaje" >
+        <activity android:name=".ElegirPersonaje">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity android:name=".EncontrarPartida">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".ElegirAtributos"></activity>
+        <activity android:name=".ElegirAtributos" />
         <activity android:name=".CreacionPartida">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -11,10 +11,12 @@
         android:id="@+id/cardUser"
         android:backgroundTint="@color/colorAccent"
         android:elevation="10dp"
+        android:onClick="abrirOpcionesUsuario"
         app:cardCornerRadius="11dp"
         android:layout_margin="9dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="OnClick">
 
     <LinearLayout
         android:orientation="horizontal"

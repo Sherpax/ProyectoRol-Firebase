@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:padding="8dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:orientation="vertical"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/mensaje"
+            android:padding="10dp"
+            android:background="@color/green"
+            android:textColor="@color/white"
+            android:text="EEEEEEEEEE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <!-- Colocar fecha -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/txt_fecha"
+            android:textSize="13sp"
+            android:text="fecha"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TextView>
+
+        <ImageView
+            android:id="@+id/icon_entregado"
+            android:src="@drawable/ic_entregado"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ImageView>
+
+        <ImageView
+            android:id="@+id/icon_evisto"
+            android:src="@drawable/ic_visto"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ImageView>
+
+    </LinearLayout>
+
+</LinearLayout>
+
+

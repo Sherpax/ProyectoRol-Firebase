@@ -7,15 +7,15 @@
 
     <ProgressBar
         android:id="@+id/barraProgreso"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     </ProgressBar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv2"
-        android:visibility="visible"
+        android:id="@+id/rv1"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
