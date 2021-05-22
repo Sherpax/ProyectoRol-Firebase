@@ -1,8 +1,49 @@
 package com.example.proyectorol.pojos;
 
 public class ChatGrupo {
-    private String id;
-    private String envia, recibe, mensaje, fecha, hora;
-    boolean esMaster;
+    String mensaje;
+    String nombre;
+    String key;
+    String uid;
 
+    public ChatGrupo() {
+    }
+
+    public ChatGrupo(String mensaje, String nombre,String uid) {
+        this.mensaje = mensaje;
+        this.nombre = nombre;
+        this.uid=uid;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 }
