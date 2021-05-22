@@ -37,7 +37,7 @@
             android:id="@+id/txt_fecha"
             android:textSize="13sp"
             android:text="fecha"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></TextView>

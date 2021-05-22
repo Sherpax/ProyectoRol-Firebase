@@ -129,7 +129,7 @@ public class Mensajes extends AppCompatActivity {
                                 id_user,mensaje,
                                 formatFecha.format(calendario.getTime()),
                                 formatTiempo.format(calendario.getTime()),
-                                true);
+                                estaConectado);
                         ref_chat.child(id_chat_global).child(idPush).setValue(chatMensaje);
                         Toast.makeText(Mensajes.this,
                                 "Mensaje enviado", Toast.LENGTH_SHORT).show();
@@ -142,7 +142,7 @@ public class Mensajes extends AppCompatActivity {
                                 id_user,mensaje,
                                 formatFecha.format(calendario.getTime()),
                                 formatTiempo.format(calendario.getTime()),
-                                false);
+                                estaConectado);
                         ref_chat.child(id_chat_global).push().setValue(chatMensaje);
                         Toast.makeText(Mensajes.this,
                                 "Mensaje enviado", Toast.LENGTH_SHORT).show();

@@ -73,9 +73,9 @@ public class AdaptadorChats extends RecyclerView.Adapter<AdaptadorChats.viewHold
 
         //TODO: Peta
         if(chats.getFecha().equals(formatoFecha.format(calendario.getTime()))){
-//            holder.txt_fecha.setText("hoy "+chats.getHora());
+            holder.txt_fecha.setText("hoy "+chats.getHora());
         }else{
-//            holder.txt_fecha.setText(chats.getFecha()+" "+chats.getHora());
+           holder.txt_fecha.setText(chats.getFecha()+" "+chats.getHora());
         }
 
     }
@@ -92,7 +92,7 @@ public class AdaptadorChats extends RecyclerView.Adapter<AdaptadorChats.viewHold
         public viewHolderAdapter(@NonNull @NotNull View itemView) {
             super(itemView);
             txt_mensaje = itemView.findViewById(R.id.mensaje);
-//            txt_fecha = itemView.findViewById(R.id.txt_fecha);
+            txt_fecha = itemView.findViewById(R.id.txt_fecha);
             img_entregado = itemView.findViewById(R.id.icon_entregado);
             img_visto = itemView.findViewById(R.id.icon_evisto);
         }
