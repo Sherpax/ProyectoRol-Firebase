@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -155,6 +156,8 @@ public class OpcionesUsuario extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Map<String, Object> hasMap = new HashMap<>();
+                    Dialog in = (Dialog)dialog;
+                    txt_nombre = in.findViewById(R.id.txtcambiaNombre);
                     hasMap.put("nombre",txt_nombre.getText().toString());
                     ref_usuario.updateChildren(hasMap);
                     Toast.makeText(OpcionesUsuario.this,
@@ -322,12 +325,15 @@ public class OpcionesUsuario extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case 0:
+                                AlertDialog dialogo;
                                 AlertDialog.Builder bulder2 = new AlertDialog.Builder(OpcionesUsuario.this);
                                 bulder2.setTitle("Cambiar Nombre").
                                         setView(R.layout.op_cambiar_nombe).setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Map<String, Object> hasMap = new HashMap<>();
+                                        Dialog in = (Dialog)dialog;
+                                        txt_nombre = in.findViewById(R.id.txtcambiaNombre);
                                         hasMap.put("nombre",txt_nombre.getText().toString());
                                         ref_usuario.updateChildren(hasMap);
                                         Toast.makeText(OpcionesUsuario.this,
