@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,18 +50,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OpcionesUsuario extends AppCompatActivity {
-     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-     private FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
-     private DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()); //Esto nos permite controlar las referencias al usuario por ID
-     private DatabaseReference ref_solicitudes_contador = baseDatos.getReference("contador").child(user.getUid());
-     private DatabaseReference ref_estados = baseDatos.getReference("estado").child(user.getUid());
-     private EditText txt_nombre;
-     private View inflatedView;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+    private DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()); //Esto nos permite controlar las referencias al usuario por ID
+    private DatabaseReference ref_solicitudes_contador = baseDatos.getReference("contador").child(user.getUid());
+    private DatabaseReference ref_estados = baseDatos.getReference("estado").child(user.getUid());
+    private EditText txt_nombre;
+    private View inflatedView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opciones_usuario);
-      //  img_foto = findViewById(R.id.imagenPerfil);
+        //  img_foto = findViewById(R.id.imagenPerfil);
 
         inflatedView = getLayoutInflater().inflate(R.layout.op_cambiar_nombe, null, false);
         txt_nombre = inflatedView.findViewById(R.id.txtcambiaNombre);
@@ -71,61 +72,61 @@ public class OpcionesUsuario extends AppCompatActivity {
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull @NotNull TabLayout.Tab tab, int position) {
-                    switch (position){
-                        case 0: {
-                            tab.setText("Usuario");
-                            tab.setIcon(R.drawable.ic_usuario);
-                            break;
-                        }
-                        case 1: {
-                            tab.setText("Ficha");
-                            tab.setIcon(R.drawable.ic_ficha);
-                            break;
-                        }
-                        case 2: {
-                            tab.setText("Chats");
-                            tab.setIcon(R.drawable.ic_chats);
-                            break;
-                        }
-                        case 3: {
-                            tab.setText("Partidas");
-                            tab.setIcon(R.drawable.ic_gruposchat);
+                switch (position){
+                    case 0: {
+                        tab.setText("Usuario");
+                        tab.setIcon(R.drawable.ic_usuario);
+                        break;
+                    }
+                    case 1: {
+                        tab.setText("Ficha");
+                        tab.setIcon(R.drawable.ic_ficha);
+                        break;
+                    }
+                    case 2: {
+                        tab.setText("Chats");
+                        tab.setIcon(R.drawable.ic_chats);
+                        break;
+                    }
+                    case 3: {
+                        tab.setText("Partidas");
+                        tab.setIcon(R.drawable.ic_gruposchat);
 
-                            break;
-                        }
-                        case 4:
-                            tab.setText("Jugadores");
-                            tab.setIcon(R.drawable.ic_solicitudes);
-                            tab.setIcon(R.drawable.ic_jugadores);
+                        break;
+                    }
+                    case 4:
+                        tab.setText("Jugadores");
+                        tab.setIcon(R.drawable.ic_solicitudes);
+                        tab.setIcon(R.drawable.ic_jugadores);
 
-                            final BadgeDrawable badgeDrawable = tab.getOrCreateBadge();
-                            //Añadimos el número de peticiones por aceptar etc
-                            badgeDrawable.setBackgroundColor(
-                                    ContextCompat.getColor(getApplicationContext(),R.color.colorAccent)
-                            );
-                            //Esto muestra el número de solicitudes pendientes real
-                            ref_solicitudes_contador.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                    if(snapshot.exists()){
-                                        Integer valor = snapshot.getValue(Integer.class);
-                                        badgeDrawable.setVisible(true);
-                                        //No mostramos el icono si no hay solicitudes, lo mostramos solo si hay
-                                        if(valor.equals("0")){
-                                            badgeDrawable.setVisible(false);
-                                        }else{
-                                            badgeDrawable.setNumber(valor);
-                                        }
+                        final BadgeDrawable badgeDrawable = tab.getOrCreateBadge();
+                        //Añadimos el número de peticiones por aceptar etc
+                        badgeDrawable.setBackgroundColor(
+                                ContextCompat.getColor(getApplicationContext(),R.color.colorAccent)
+                        );
+                        //Esto muestra el número de solicitudes pendientes real
+                        ref_solicitudes_contador.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    Integer valor = snapshot.getValue(Integer.class);
+                                    badgeDrawable.setVisible(true);
+                                    //No mostramos el icono si no hay solicitudes, lo mostramos solo si hay
+                                    if(valor.equals("0")){
+                                        badgeDrawable.setVisible(false);
+                                    }else{
+                                        badgeDrawable.setNumber(valor);
                                     }
                                 }
+                            }
 
-                                @Override
-                                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                                }
-                            });
-                            break;
-                    }
+                            }
+                        });
+                        break;
+                }
             }
         });
         //Añadimos el tab
@@ -150,21 +151,39 @@ public class OpcionesUsuario extends AppCompatActivity {
         SharedPreferences sPrefs = getSharedPreferences("fLogin",MODE_PRIVATE);
 
         if(sPrefs.getBoolean("fLogin",true)){
+            AlertDialog dialogo;
             AlertDialog.Builder bulder2 = new AlertDialog.Builder(OpcionesUsuario.this);
-            bulder2.setTitle("Cambiar Nombre").
-                    setView(R.layout.op_cambiar_nombe).setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
+            bulder2.setTitle("Cambiar Nombre").setView(R.layout.op_cambiar_nombe)
+                    .setPositiveButton("Aplicar", null);
+//                                    @Override
+//
+//                                });
+            AlertDialog dialog2 = bulder2.create();
+            dialog2.setOnShowListener(new DialogInterface.OnShowListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Map<String, Object> hasMap = new HashMap<>();
-                    Dialog in = (Dialog)dialog;
-                    txt_nombre = in.findViewById(R.id.txtcambiaNombre);
-                    hasMap.put("nombre",txt_nombre.getText().toString());
-                    ref_usuario.updateChildren(hasMap);
-                    Toast.makeText(OpcionesUsuario.this,
-                            txt_nombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                public void onShow(DialogInterface dialog) {
+                    Button boton = ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE);
+                    boton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Map<String, Object> hasMap = new HashMap<>();
+                            Dialog in = (Dialog)dialog;
+                            txt_nombre = in.findViewById(R.id.txtcambiaNombre);
+                            if(txt_nombre.getText().toString().length()==0){
+                                Toast.makeText(OpcionesUsuario.this,
+                                        "El nombre no puede estar vacio",
+                                        Toast.LENGTH_SHORT).show();
+                            }else{
+                                hasMap.put("nombre",txt_nombre.getText().toString());
+                                ref_usuario.updateChildren(hasMap);
+                                Toast.makeText(OpcionesUsuario.this,
+                                        txt_nombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        }
+                    });
                 }
             });
-            AlertDialog dialog2 = bulder2.create();
             dialog2.show();
             SharedPreferences.Editor editor;
             editor = sPrefs.edit();
@@ -288,7 +307,7 @@ public class OpcionesUsuario extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.cerrarSesion:
                 cerrarSesion();
-            break;
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -327,20 +346,38 @@ public class OpcionesUsuario extends AppCompatActivity {
                             case 0:
                                 AlertDialog dialogo;
                                 AlertDialog.Builder bulder2 = new AlertDialog.Builder(OpcionesUsuario.this);
-                                bulder2.setTitle("Cambiar Nombre").
-                                        setView(R.layout.op_cambiar_nombe).setPositiveButton("Aplicar", new DialogInterface.OnClickListener() {
+                                bulder2.setTitle("Cambiar Nombre").setView(R.layout.op_cambiar_nombe)
+                                        .setPositiveButton("Aplicar", null)
+                                        .setNegativeButton("Cancelar",null);
+//                                    @Override
+//
+//                                });
+                                AlertDialog dialog2 = bulder2.create();
+                                dialog2.setOnShowListener(new DialogInterface.OnShowListener() {
                                     @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Map<String, Object> hasMap = new HashMap<>();
-                                        Dialog in = (Dialog)dialog;
-                                        txt_nombre = in.findViewById(R.id.txtcambiaNombre);
-                                        hasMap.put("nombre",txt_nombre.getText().toString());
-                                        ref_usuario.updateChildren(hasMap);
-                                        Toast.makeText(OpcionesUsuario.this,
-                                                txt_nombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                                    public void onShow(DialogInterface dialog) {
+                                        Button boton = ((AlertDialog) dialog2).getButton(AlertDialog.BUTTON_POSITIVE);
+                                        boton.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Map<String, Object> hasMap = new HashMap<>();
+                                                Dialog in = (Dialog)dialog;
+                                                txt_nombre = in.findViewById(R.id.txtcambiaNombre);
+                                                if(txt_nombre.getText().toString().length()==0){
+                                                    Toast.makeText(OpcionesUsuario.this,
+                                                            "El nombre no puede estar vacio",
+                                                            Toast.LENGTH_SHORT).show();
+                                                }else{
+                                                    hasMap.put("nombre",txt_nombre.getText().toString());
+                                                    ref_usuario.updateChildren(hasMap);
+                                                    Toast.makeText(OpcionesUsuario.this,
+                                                            txt_nombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                                                    dialog.dismiss();
+                                                }
+                                            }
+                                        });
                                     }
                                 });
-                                AlertDialog dialog2 = bulder2.create();
                                 dialog2.show();
                                 break;
                             case 1:
@@ -349,7 +386,6 @@ public class OpcionesUsuario extends AppCompatActivity {
                         }
                     }
                 });
-
         AlertDialog dialog = builder.create();
         dialog.show();
     }
