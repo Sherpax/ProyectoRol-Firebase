@@ -8,20 +8,19 @@
     android:layout_height="match_parent"
     tools:context=".CreacionPartida">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/header_partida"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Datos de la partida"
-        android:layout_above="@id/cNomPartida"
-         />
+        android:src="@drawable/vamp_mask"
+    />
 
     <EditText
         android:id="@+id/cNomPartida"
         android:gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="130dp"
         android:layout_marginLeft="80dp"
         android:textAlignment="textStart"
         android:ems="12"

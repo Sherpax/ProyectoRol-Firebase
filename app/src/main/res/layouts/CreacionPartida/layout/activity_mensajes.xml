@@ -79,7 +79,7 @@
             android:id="@+id/txt_Mensaje"
             android:layout_centerVertical="true"
             android:hint="Escribe un mensaje..."
-            android:layout_width="369dp"
+            android:layout_width="365dp"
             android:layout_height="wrap_content"></EditText>
 
         <ImageButton

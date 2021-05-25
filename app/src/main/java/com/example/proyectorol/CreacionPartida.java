@@ -12,6 +12,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.proyectorol.pojos.Partida;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class CreacionPartida extends AppCompatActivity {
     private EditText nombrePartida, password;
     private Spinner numJugadores;
@@ -73,9 +79,21 @@ public class CreacionPartida extends AppCompatActivity {
     }
 
     public void crearPartida(View view) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (compruebaPartida()) {
-            Intent irCrearPJ = new Intent(this, ElegirPersonaje.class);
-            startActivity(irCrearPJ);
+            Partida partida = new Partida(this.nombrePartida.getText().toString()+"-"+user.getUid(),
+                    this.nombrePartida.getText().toString(),
+                    this.numJugadores.getSelectedItemPosition()+1,
+                    this.partidaPublica.isSelected());
+            if(this.partidaPrivada.isSelected()){
+                partida.setPass(this.password.getText().toString());
+            }
+            FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+            DatabaseReference ref_fichas = baseDatos.getReference("partidas");
+            ref_fichas.child(partida.getIdPartida()).setValue(partida);
+            Intent intent = new Intent(this,Sesion.class);
+            intent.putExtra("DATOS",partida);
+            startActivity(intent);
         } else {
             Toast.makeText(this,
                     this.error, Toast.LENGTH_SHORT).show();

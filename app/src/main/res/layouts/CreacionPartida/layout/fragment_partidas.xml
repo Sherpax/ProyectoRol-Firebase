@@ -13,12 +13,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_grupos_show"
+        <ListView
+            android:id="@+id/listPartidas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-        </androidx.recyclerview.widget.RecyclerView>
+        </ListView>
 
     </LinearLayout>
 
@@ -35,14 +34,6 @@
         android:layout_height="match_parent">
     </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
-    //CUIDADO CON CENTER|CENTER
-    <ProgressBar
-        android:id="@+id/barraProgreso"
-        android:visibility="gone"
-        android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </ProgressBar>
 
 
 </FrameLayout>

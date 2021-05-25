@@ -189,6 +189,7 @@ public class OpcionesUsuario extends AppCompatActivity {
             editor.apply();
         }
 
+        viewPager2.setCurrentItem(getIntent().getIntExtra("RECARGA",0));
 
     }
 

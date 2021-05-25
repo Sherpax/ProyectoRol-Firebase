@@ -1,4 +1,4 @@
-package com.example.proyectorol.prueba;
+package com.example.proyectorol.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectorol.R;
-import com.example.proyectorol.chatGrupalPrueba;
+import com.example.proyectorol.Sesion;
 import com.example.proyectorol.pojos.ChatGrupo;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +27,7 @@ public class AdaptadorChatPrueba extends RecyclerView.Adapter<AdaptadorChatPrueb
     DatabaseReference ref;
     final static int MENSAJEIZQUIERDA=0;
     final static int MENSAJEDERECHA=1;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
     public AdaptadorChatPrueba(Context context, List<ChatGrupo> mensajes, DatabaseReference ref) {
@@ -50,7 +53,7 @@ public class AdaptadorChatPrueba extends RecyclerView.Adapter<AdaptadorChatPrueb
     @Override
     public void onBindViewHolder(@NonNull @NotNull AdaptadorPruebaHolder holder, int position) {
         ChatGrupo mensaje = mensajes.get(position);
-        if(mensaje.getUid().equals(chatGrupalPrueba.uid)){
+        if(mensaje.getNombre().equals(user.getDisplayName())){
             holder.tv.setText("Tú: "+mensaje.getMensaje());
         }else{
             holder.tv.setText(mensaje.getNombre()+": "+mensaje.getMensaje());
@@ -65,7 +68,7 @@ public class AdaptadorChatPrueba extends RecyclerView.Adapter<AdaptadorChatPrueb
     @Override
     public int getItemViewType(int position) {
         int tipo;
-        if(chatGrupalPrueba.uid.equals(mensajes.get(position).getUid())){
+        if(user.getDisplayName().equals(mensajes.get(position).getNombre())){
             tipo=MENSAJEDERECHA;
         }else{
             tipo=MENSAJEIZQUIERDA;
