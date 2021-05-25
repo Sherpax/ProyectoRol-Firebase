@@ -11,14 +11,20 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.proyectorol.pojos.Partida;
-import com.example.proyectorol.pojos.Usuario;
-import com.example.proyectorol.adapters.AdaptadorChatPrueba;
+import com.example.proyectorol.adapters.AdaptadorChatGrupal;
 import com.example.proyectorol.pojos.ChatGrupo;
+import com.example.proyectorol.pojos.Usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -26,10 +32,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -38,7 +46,7 @@ public class Sesion extends AppCompatActivity {
     Partida partida;
     FirebaseDatabase database;
     DatabaseReference ref;
-    AdaptadorChatPrueba adaptadorChatPrueba;
+    AdaptadorChatGrupal adaptadorChatGrupal;
     final FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
     List<ChatGrupo> mensajes;
     RecyclerView rv;
@@ -77,16 +85,15 @@ public class Sesion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder bulder2 = new AlertDialog.Builder(Sesion.this);
-                bulder2.setTitle("Tirar Dados").setView(R.layout.op_cambiar_nombe)
-                        .setMessage("Introduce cuantos dados quieres lanzar")
+                bulder2.setTitle("Tirar Dados").setView(R.layout.op_lanzar_dados)
                         .setPositiveButton("Lanzar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog in = (Dialog)dialog;
-                                int[] dados;
-                                EditText txt_nombre = in.findViewById(R.id.txtcambiaNombre);
+                                EditText txt_nombre = in.findViewById(R.id.txt_dados);
                                 Random rand = new Random();
-                                String mensajeDados = "Resultados de la tirada: ";
+                                String mensajeDados = "lanzado "+txt_nombre.getText().toString()+" dados" +
+                                        " con los siguientes resultados: ";
                                 for(int i=0;i<Integer.parseInt(txt_nombre.getText().toString());i++){
                                     if(i<Integer.parseInt(txt_nombre.getText().toString())-1){
                                         mensajeDados+=(rand.nextInt(10)+1)+", ";
@@ -95,7 +102,7 @@ public class Sesion extends AppCompatActivity {
                                     }
                                 }
                                 mensajeDados+="\b\b";
-                                ChatGrupo nuevo = new ChatGrupo(mensajeDados,u.getDisplayName(),u.getUid());
+                                ChatGrupo nuevo = new ChatGrupo(mensajeDados,u.getDisplayName(),u.getUid(),true);
                                 editText.setText("");
                                 ref.push().setValue(nuevo);
                                 dialog.cancel();
@@ -120,7 +127,6 @@ public class Sesion extends AppCompatActivity {
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                 ChatGrupo mensaje = snapshot.getValue(ChatGrupo.class);
                 mensaje.setKey(snapshot.getKey());
-                mensaje.setUid(u.getUid());
                 mensajes.add(mensaje);
                 monstrarMensajes(mensajes);
             }
@@ -160,8 +166,63 @@ public class Sesion extends AppCompatActivity {
 
     private void monstrarMensajes(List<ChatGrupo> mensajes) {
         rv.setLayoutManager(new LinearLayoutManager(Sesion.this));
-        adaptadorChatPrueba = new AdaptadorChatPrueba(Sesion.this,mensajes,ref);
-        rv.setAdapter(adaptadorChatPrueba);
+        adaptadorChatGrupal = new AdaptadorChatGrupal(Sesion.this,mensajes,ref);
+        rv.setAdapter(adaptadorChatGrupal);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menupartida,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.verJugadores:
+                verJugadores();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void verJugadores() {
+        FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+        DatabaseReference ref_fichas = baseDatos.getReference("partidas").child(partida.getIdPartida())
+                .child("jugadores");
+        ArrayList<String> nombreJugadores= new ArrayList<>();
+        ArrayList<Usuario> jugadores = new ArrayList<>();
+        //Con esto se coge toda la info de la tabla
+        ref_fichas.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+                Usuario aux = null;
+                while(iterator.hasNext()){
+                    aux = iterator.next().getValue(Usuario.class);
+                        jugadores.add(aux);
+                        nombreJugadores.add(aux.getNombre());
+                    }
+                AlertDialog.Builder builder = new AlertDialog.Builder(Sesion.this);
+                builder.setTitle("Jugadores");
+                String[] items = new String[nombreJugadores.size()];
+                for(byte i=0;i<nombreJugadores.size();i++){
+                    items[i]=nombreJugadores.get(i);
+                }
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.setItems(items,null);
+                builder.create().show();
+            }
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        });
     }
 
     @Override

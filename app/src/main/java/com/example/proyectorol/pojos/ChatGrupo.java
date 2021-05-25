@@ -5,6 +5,7 @@ public class ChatGrupo {
     String nombre;
     String key;
     String uid;
+    boolean mensajeDados;
 
     public ChatGrupo() {
     }
@@ -13,6 +14,13 @@ public class ChatGrupo {
         this.mensaje = mensaje;
         this.nombre = nombre;
         this.uid=uid;
+    }
+
+    public ChatGrupo(String mensaje, String nombre,String uid,boolean mensajeDados) {
+        this.mensaje = mensaje;
+        this.nombre = nombre;
+        this.uid=uid;
+        this.mensajeDados=mensajeDados;
     }
 
     public String getMensaje() {
@@ -45,5 +53,13 @@ public class ChatGrupo {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public boolean isMensajeDados() {
+        return mensajeDados;
+    }
+
+    public void setMensajeDados(boolean mensajeDados) {
+        this.mensajeDados = mensajeDados;
     }
 }

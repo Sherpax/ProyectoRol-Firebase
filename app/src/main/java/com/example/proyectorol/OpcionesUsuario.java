@@ -3,7 +3,6 @@ package com.example.proyectorol;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -18,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectorol.adapters.Adaptador;
@@ -38,13 +35,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.UserWriteRecord;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +57,7 @@ public class OpcionesUsuario extends AppCompatActivity {
         setContentView(R.layout.activity_opciones_usuario);
         //  img_foto = findViewById(R.id.imagenPerfil);
 
-        inflatedView = getLayoutInflater().inflate(R.layout.op_cambiar_nombe, null, false);
+        inflatedView = getLayoutInflater().inflate(R.layout.op_introducir_pass, null, false);
         txt_nombre = inflatedView.findViewById(R.id.txtcambiaNombre);
 
         ViewPager2 viewPager2 = findViewById(R.id.viewPager);

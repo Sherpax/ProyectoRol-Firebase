@@ -81,12 +81,18 @@ public class CreacionPartida extends AppCompatActivity {
     public void crearPartida(View view) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (compruebaPartida()) {
-            Partida partida = new Partida(this.nombrePartida.getText().toString()+"-"+user.getUid(),
-                    this.nombrePartida.getText().toString(),
-                    this.numJugadores.getSelectedItemPosition()+1,
-                    this.partidaPublica.isSelected());
-            if(this.partidaPrivada.isSelected()){
-                partida.setPass(this.password.getText().toString());
+            Partida partida;
+            if(!this.partidaPublica.isSelected()){
+                 partida = new Partida(this.nombrePartida.getText().toString()+"-"+user.getUid(),
+                         this.nombrePartida.getText().toString(),
+                        this.numJugadores.getSelectedItemPosition()+1,
+                         this.partidaPublica.isSelected(),
+                         this.password.getText().toString());
+            }else{
+                partida = new Partida(this.nombrePartida.getText().toString()+"-"+user.getUid(),
+                        this.nombrePartida.getText().toString(),
+                        this.numJugadores.getSelectedItemPosition()+1,
+                        this.partidaPublica.isSelected());
             }
             FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
             DatabaseReference ref_fichas = baseDatos.getReference("partidas");

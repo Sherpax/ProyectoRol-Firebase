@@ -31,7 +31,7 @@
                 android:id="@+id/etMensaje"
                 android:layout_centerVertical="true"
                 android:hint="Escribe un mensaje..."
-                android:layout_width="313dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"></EditText>
             <ImageButton
                 android:layout_width="45dp"

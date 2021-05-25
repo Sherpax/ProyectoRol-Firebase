@@ -18,6 +18,15 @@ public class Partida implements Serializable {
         this.nombre = nombre;
         this.nJugadores = nJugadores;
         this.publica = publica;
+        this.pass="";
+    }
+
+    public Partida(String idPartida, String nombre, int nJugadores, boolean publica,String pass) {
+        this.idPartida = idPartida;
+        this.nombre = nombre;
+        this.nJugadores = nJugadores;
+        this.publica = publica;
+        this.pass=pass;
     }
 
     public String getIdPartida() {

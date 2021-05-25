@@ -1,6 +1,8 @@
 package com.example.proyectorol.pojos;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     private String id;
     private String nombre;
     private String nick; //El que verán otros usuarios
@@ -15,8 +17,9 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nombre) {
-        this.nombre = nombre;
+    public Usuario(String uid,String nick) {
+        this.id=uid;
+        this.nick=nick;
     }
 
     public Usuario(String id, String nombre, String nick, String email, String foto, String fecha, String hora, String estado, int solicitudAmistad, int nuevosMensajes) {

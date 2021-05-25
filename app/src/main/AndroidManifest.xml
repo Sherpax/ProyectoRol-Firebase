@@ -12,8 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoRol"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Sesion"></activity>
-        <activity android:name=".Mensajes">
+        <activity android:name=".Sesion" />
+
+        <activity android:name=".Mensajes"
+            android:theme="@style/Theme.ProyectoRol.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".OpcionesUsuario" />

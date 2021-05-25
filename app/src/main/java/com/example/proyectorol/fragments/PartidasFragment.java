@@ -1,16 +1,21 @@
 package com.example.proyectorol.fragments;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -18,6 +23,7 @@ import com.example.proyectorol.CreacionPartida;
 import com.example.proyectorol.R;
 import com.example.proyectorol.Sesion;
 import com.example.proyectorol.VerFicha;
+import com.example.proyectorol.pojos.ChatGrupo;
 import com.example.proyectorol.pojos.Partida;
 import com.example.proyectorol.pojos.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,11 +39,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 
 public class PartidasFragment extends Fragment {
 
     private ArrayList<Partida> partidas=new ArrayList<>();
+    Usuario usuario;
 
 
     public PartidasFragment() {
@@ -60,7 +68,6 @@ public class PartidasFragment extends Fragment {
         });
 
 
-        final FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
         DatabaseReference ref_fichas = baseDatos.getReference("partidas");
         ArrayList<String> nombrePartidas= new ArrayList<>();
@@ -88,9 +95,54 @@ public class PartidasFragment extends Fragment {
                 listPartidas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(getContext(), Sesion.class);
-                        intent.putExtra("DATOS", partidas.get(position));
-                        startActivity(intent);
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+                        DatabaseReference ref_fichas = baseDatos.getReference("partidas")
+                                .child(partidas.get(position).getIdPartida());
+                        baseDatos.getReference("usuarios").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                usuario=(Usuario)snapshot.child(user.getUid()).getValue(Usuario.class);
+                                Log.e("ID",user.getUid());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                            }
+                        });
+                        if(partidas.get(position).isPublica()){
+                            Intent intent = new Intent(getContext(), Sesion.class);
+                            intent.putExtra("DATOS", partidas.get(position));
+                            ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);
+                            startActivity(intent);
+                        }else{
+                            AlertDialog.Builder bulder2 = new AlertDialog.Builder(getContext());
+                            bulder2.setTitle("Introduce la contraseña").setView(R.layout.op_introducir_pass)
+                                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Dialog in = (Dialog)dialog;
+                                            EditText txt_nombre = in.findViewById(R.id.txtPass);
+                                            txt_nombre.setHint("Introduce la contraseña...");
+                                            if(txt_nombre.getText().toString().equals(partidas.get(position).getPass())){
+                                                Intent intent = new Intent(getContext(), Sesion.class);
+                                                intent.putExtra("DATOS", partidas.get(position));
+                                                ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);
+                                                startActivity(intent);
+                                            }else{
+                                                Toast.makeText(getContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                                            }
+                                            dialog.cancel();
+                                        }
+                                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            }).show();
+                        }
+
                     }
                 });
             }
