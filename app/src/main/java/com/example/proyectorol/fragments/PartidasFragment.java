@@ -103,7 +103,6 @@ public class PartidasFragment extends Fragment {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                 usuario=(Usuario)snapshot.child(user.getUid()).getValue(Usuario.class);
-                                Log.e("ID",user.getUid());
                             }
 
                             @Override
@@ -111,7 +110,7 @@ public class PartidasFragment extends Fragment {
 
                             }
                         });
-                        if(partidas.get(position).isPublica()){
+                        if(partidas.get(position).getPass().isEmpty()){
                             Intent intent = new Intent(getContext(), Sesion.class);
                             intent.putExtra("DATOS", partidas.get(position));
                             ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);

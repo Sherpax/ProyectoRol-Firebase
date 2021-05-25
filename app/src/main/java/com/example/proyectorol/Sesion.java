@@ -116,6 +116,22 @@ public class Sesion extends AppCompatActivity {
             }
         });
         mensajes= new ArrayList<>();
+        //VUELTA AL MENU CUANDO CIERRE DE PARTIDA
+        database.getReference("partidas").child(partida.getIdPartida()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(!snapshot.exists()){
+                    Intent intent = new Intent(Sesion.this,OpcionesUsuario.class);
+                    intent.putExtra("RECARGA",3);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -183,8 +199,19 @@ public class Sesion extends AppCompatActivity {
             case R.id.verJugadores:
                 verJugadores();
                 break;
+            case R.id.cerrarPartida:
+                cerrarPartida();
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void cerrarPartida() {
+        FirebaseDatabase.getInstance().getReference().child("partidas")
+                .child(partida.getIdPartida()).removeValue();
+        Intent intent = new Intent(this,OpcionesUsuario.class);
+        intent.putExtra("RECARGA",3);
+        startActivity(intent);
     }
 
     private void verJugadores() {
