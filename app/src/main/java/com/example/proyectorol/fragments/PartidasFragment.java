@@ -103,44 +103,44 @@ public class PartidasFragment extends Fragment {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                 usuario=(Usuario)snapshot.child(user.getUid()).getValue(Usuario.class);
+                                if(partidas.get(position).getPass().isEmpty()){
+                                    Intent intent = new Intent(getContext(), Sesion.class);
+                                    intent.putExtra("DATOS", partidas.get(position));
+                                    ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);
+                                    startActivity(intent);
+                                }else{
+                                    AlertDialog.Builder bulder2 = new AlertDialog.Builder(getContext());
+                                    bulder2.setTitle("Introduce la contraseña").setView(R.layout.op_introducir_pass)
+                                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Dialog in = (Dialog)dialog;
+                                                    EditText txt_nombre = in.findViewById(R.id.txtPass);
+                                                    txt_nombre.setHint("Introduce la contraseña...");
+                                                    if(txt_nombre.getText().toString().equals(partidas.get(position).getPass())){
+                                                        Intent intent = new Intent(getContext(), Sesion.class);
+                                                        intent.putExtra("DATOS", partidas.get(position));
+                                                        ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);
+                                                        startActivity(intent);
+                                                    }else{
+                                                        Toast.makeText(getContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    dialog.cancel();
+                                                }
+                                            }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
+                                        }
+                                    }).show();
+                                }
                             }
-
                             @Override
                             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
                             }
                         });
-                        if(partidas.get(position).getPass().isEmpty()){
-                            Intent intent = new Intent(getContext(), Sesion.class);
-                            intent.putExtra("DATOS", partidas.get(position));
-                            ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);
-                            startActivity(intent);
-                        }else{
-                            AlertDialog.Builder bulder2 = new AlertDialog.Builder(getContext());
-                            bulder2.setTitle("Introduce la contraseña").setView(R.layout.op_introducir_pass)
-                                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Dialog in = (Dialog)dialog;
-                                            EditText txt_nombre = in.findViewById(R.id.txtPass);
-                                            txt_nombre.setHint("Introduce la contraseña...");
-                                            if(txt_nombre.getText().toString().equals(partidas.get(position).getPass())){
-                                                Intent intent = new Intent(getContext(), Sesion.class);
-                                                intent.putExtra("DATOS", partidas.get(position));
-                                                ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);
-                                                startActivity(intent);
-                                            }else{
-                                                Toast.makeText(getContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
-                                            }
-                                            dialog.cancel();
-                                        }
-                                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            }).show();
-                        }
+
 
                     }
                 });

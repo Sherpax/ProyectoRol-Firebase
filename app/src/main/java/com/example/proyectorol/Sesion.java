@@ -53,7 +53,7 @@ public class Sesion extends AppCompatActivity {
     EditText editText;
     ImageButton imageButtonEnviar;
     ImageButton imageButtonDados;
-
+    String mensajeDados;
 
 
 
@@ -74,9 +74,22 @@ public class Sesion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!editText.getText().toString().isEmpty()){
-                    ChatGrupo nuevo = new ChatGrupo(editText.getText().toString(),u.getDisplayName(),u.getUid());
-                    editText.setText("");
-                    ref.push().setValue(nuevo);
+                    database.getReference("usuarios").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            Usuario usuario;
+                            usuario=(Usuario)snapshot.child(u.getUid()).getValue(Usuario.class);
+                            ChatGrupo nuevo = new ChatGrupo(editText.getText().toString(),usuario.getNombre(),u.getUid());
+                            editText.setText("");
+                            ref.push().setValue(nuevo);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+                    });
+
                 }
             }
         });
@@ -92,7 +105,7 @@ public class Sesion extends AppCompatActivity {
                                 Dialog in = (Dialog)dialog;
                                 EditText txt_nombre = in.findViewById(R.id.txt_dados);
                                 Random rand = new Random();
-                                String mensajeDados = "lanzado "+txt_nombre.getText().toString()+" dados" +
+                                mensajeDados = "lanzado "+txt_nombre.getText().toString()+" dados" +
                                         " con los siguientes resultados: ";
                                 for(int i=0;i<Integer.parseInt(txt_nombre.getText().toString());i++){
                                     if(i<Integer.parseInt(txt_nombre.getText().toString())-1){
@@ -101,11 +114,23 @@ public class Sesion extends AppCompatActivity {
                                         mensajeDados+=(rand.nextInt(10)+1);
                                     }
                                 }
-                                mensajeDados+="\b\b";
-                                ChatGrupo nuevo = new ChatGrupo(mensajeDados,u.getDisplayName(),u.getUid(),true);
-                                editText.setText("");
-                                ref.push().setValue(nuevo);
-                                dialog.cancel();
+                                database.getReference("usuarios").addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        Usuario usuario;
+
+                                        usuario=(Usuario)snapshot.child(u.getUid()).getValue(Usuario.class);
+                                        ChatGrupo nuevo = new ChatGrupo(mensajeDados,usuario.getNombre(),u.getUid(),true);
+                                        editText.setText("");
+                                        ref.push().setValue(nuevo);
+                                        dialog.cancel();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                    }
+                                });
                             }
                         }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
