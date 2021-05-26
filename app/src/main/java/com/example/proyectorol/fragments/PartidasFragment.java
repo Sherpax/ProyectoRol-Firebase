@@ -39,14 +39,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 
 public class PartidasFragment extends Fragment {
 
     private ArrayList<Partida> partidas=new ArrayList<>();
-    Usuario usuario;
-
+    private ArrayList<com.example.proyectorol.ficha.ListaClases> fichasJugador = new ArrayList<>();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private Usuario usuario;
+    com.example.proyectorol.ficha.ListaClases ficha=null;
 
     public PartidasFragment() {
         // Required empty public constructor
@@ -89,13 +92,12 @@ public class PartidasFragment extends Fragment {
                     partidas.add(aux);
                     nombrePartidas.add(aux.getNombre());
                     }
-                ArrayAdapter adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,
+                ArrayAdapter adaptador = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1,
                         nombrePartidas);
                 listPartidas.setAdapter(adaptador);
                 listPartidas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
                         DatabaseReference ref_fichas = baseDatos.getReference("partidas")
                                 .child(partidas.get(position).getIdPartida());
@@ -107,7 +109,53 @@ public class PartidasFragment extends Fragment {
                                     Intent intent = new Intent(getContext(), Sesion.class);
                                     intent.putExtra("DATOS", partidas.get(position));
                                     ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);
-                                    startActivity(intent);
+
+                                    //ELECCIÓN DE FICHA AL ENTRAR EN LA PARTIDA
+                                    FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+                                    DatabaseReference ref_fichas = baseDatos.getReference("fichas");
+                                    ArrayList<String> nombreFichas = new ArrayList<>();
+                                    //Con esto se coge toda la info de la tabla
+                                    ref_fichas.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                            AlertDialog.Builder dialogFicha = new AlertDialog.Builder(getContext());
+                                            dialogFicha.setTitle("Elige una ficha")
+                                                    .setPositiveButton("Volver", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.cancel();
+                                                        }
+                                                    });
+                                            Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+                                            com.example.proyectorol.ficha.ListaClases fichaAux = null;
+                                            while (iterator.hasNext()) {
+                                                fichaAux = iterator.next().getValue(com.example.proyectorol.ficha.ListaClases.class);
+                                                if (fichaAux!=null && fichaAux.getUid().equals(user.getUid())) {
+                                                    fichasJugador.add(fichaAux);
+                                                    nombreFichas.add(fichaAux.getNombre());
+                                                }
+                                            }
+                                            String[] nombres = new String[nombreFichas.size()];
+                                            for (byte i = 0; i < nombreFichas.size(); i++) {
+                                                nombres[i] = nombreFichas.get(i);
+                                            }
+                                            dialogFicha.setItems(nombres, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    ficha = fichasJugador.get(which);
+                                                    baseDatos.getReference("partidas").child(partidas.get(position).getIdPartida())
+                                                            .child("jugadores").child(user.getUid()).child("ficha").setValue(ficha);
+                                                    intent.putExtra("FICHA",ficha);
+                                                    startActivity(intent);
+                                                }
+                                            }).show();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }else{
                                     AlertDialog.Builder bulder2 = new AlertDialog.Builder(getContext());
                                     bulder2.setTitle("Introduce la contraseña").setView(R.layout.op_introducir_pass)
@@ -116,32 +164,74 @@ public class PartidasFragment extends Fragment {
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Dialog in = (Dialog)dialog;
                                                     EditText txt_nombre = in.findViewById(R.id.txtPass);
-                                                    txt_nombre.setHint("Introduce la contraseña...");
+                                                    com.example.proyectorol.ficha.ListaClases ficha;
                                                     if(txt_nombre.getText().toString().equals(partidas.get(position).getPass())){
                                                         Intent intent = new Intent(getContext(), Sesion.class);
                                                         intent.putExtra("DATOS", partidas.get(position));
                                                         ref_fichas.child("jugadores").child(user.getUid()).setValue(usuario);
-                                                        startActivity(intent);
+                                                        //CODIGO ELEGIR FICHA
+
+                                                        //ELECCIÓN DE FICHA AL ENTRAR EN LA PARTIDA
+                                                        FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+                                                        DatabaseReference ref_fichas = baseDatos.getReference("fichas");
+                                                        ArrayList<String> nombreFichas = new ArrayList<>();
+                                                        //Con esto se coge toda la info de la tabla
+                                                        ref_fichas.addValueEventListener(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                                                AlertDialog.Builder dialogFicha = new AlertDialog.Builder(getContext());
+                                                                dialogFicha.setTitle("Elige una ficha")
+                                                                        .setPositiveButton("Volver", new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                                dialog.cancel();
+                                                                            }
+                                                                        });
+                                                                Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+                                                                com.example.proyectorol.ficha.ListaClases fichaAux = null;
+                                                                while (iterator.hasNext()) {
+                                                                    fichaAux = iterator.next().getValue(com.example.proyectorol.ficha.ListaClases.class);
+                                                                    if (fichaAux.getUid().equals(user.getUid())) {
+                                                                        fichasJugador.add(fichaAux);
+                                                                        nombreFichas.add(fichaAux.getNombre());
+                                                                    }
+                                                                }
+                                                                String[] nombres = new String[nombreFichas.size()];
+                                                                for (byte i = 0; i < nombreFichas.size(); i++) {
+                                                                    nombres[i] = nombreFichas.get(i);
+                                                                }
+                                                                dialogFicha.setItems(nombres, new DialogInterface.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(DialogInterface dialog, int which) {
+                                                                        PartidasFragment.this.ficha = fichasJugador.get(which);
+                                                                        baseDatos.getReference("partidas").child(partidas.get(position).getIdPartida())
+                                                                                .child("jugadores").child(user.getUid()).child("ficha").setValue(PartidasFragment.this.ficha);
+                                                                        intent.putExtra("FICHA",PartidasFragment.this.ficha);
+                                                                        startActivity(intent);
+                                                                    }
+                                                                }).show();
+                                                            }
+                                                            @Override
+                                                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                                            }
+                                                        });
+
                                                     }else{
                                                         Toast.makeText(getContext(), "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                                                     }
                                                     dialog.cancel();
                                                 }
-                                            }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
+
                                     }).show();
                                 }
                             }
+
                             @Override
                             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
                             }
                         });
-
-
                     }
                 });
             }

@@ -43,17 +43,18 @@ import java.util.Random;
 
 public class Sesion extends AppCompatActivity {
 
-    Partida partida;
-    FirebaseDatabase database;
-    DatabaseReference ref;
-    AdaptadorChatGrupal adaptadorChatGrupal;
-    final FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
-    List<ChatGrupo> mensajes;
-    RecyclerView rv;
-    EditText editText;
-    ImageButton imageButtonEnviar;
-    ImageButton imageButtonDados;
-    String mensajeDados;
+    private Partida partida;
+    private FirebaseDatabase database;
+    private DatabaseReference ref;
+    private AdaptadorChatGrupal adaptadorChatGrupal;
+    private final FirebaseUser u = FirebaseAuth.getInstance().getCurrentUser();
+    private List<ChatGrupo> mensajes;
+    private RecyclerView rv;
+    private EditText editText;
+    private ImageButton imageButtonEnviar;
+    private ImageButton imageButtonDados;
+    private String mensajeDados;
+    private com.example.proyectorol.ficha.ListaClases ficha;
 
 
 
@@ -61,17 +62,22 @@ public class Sesion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sesion);
-        partida = (Partida) getIntent().getSerializableExtra("DATOS");
+        if(getIntent().getSerializableExtra("DATOS")!=null){
+            partida = (Partida) getIntent().getSerializableExtra("DATOS");
+        }
+        if(getIntent().getSerializableExtra("DATOS")!=null){
+            ficha = (com.example.proyectorol.ficha.ListaClases) getIntent().getSerializableExtra("FICHA");
+        }
         init();
     }
 
-    private void init() {
-        database = FirebaseDatabase.getInstance();
-        rv=findViewById(R.id.rvPrueba);
-        editText = findViewById(R.id.etMensaje);
-        imageButtonEnviar = findViewById(R.id.btnEnviarGrupo);
-        imageButtonEnviar.setOnClickListener(new View.OnClickListener() {
-            @Override
+private void init() {
+    database = FirebaseDatabase.getInstance();
+    rv=findViewById(R.id.rvPrueba);
+    editText = findViewById(R.id.etMensaje);
+    imageButtonEnviar = findViewById(R.id.btnEnviarGrupo);
+    imageButtonEnviar.setOnClickListener(new View.OnClickListener() {
+        @Override
             public void onClick(View v) {
                 if(!editText.getText().toString().isEmpty()){
                     database.getReference("usuarios").addValueEventListener(new ValueEventListener() {
@@ -224,11 +230,24 @@ public class Sesion extends AppCompatActivity {
             case R.id.verJugadores:
                 verJugadores();
                 break;
+            case R.id.verFicha:
+                verFicha();
+                break;
             case R.id.cerrarPartida:
                 cerrarPartida();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void verFicha() {
+        if(this.ficha!=null){
+            Intent intent=new Intent(this,VerFicha.class);
+            intent.putExtra("Ficha",this.ficha);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, "Los masters no tienen ficha", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void cerrarPartida() {

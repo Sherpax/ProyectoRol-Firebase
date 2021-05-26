@@ -13,9 +13,6 @@
         android:theme="@style/Theme.ProyectoRol"
         android:usesCleartextTraffic="true">
         <activity android:name=".Sesion" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".OpcionesUsuario" />
         </activity>
 
         <activity android:name=".Mensajes"
