@@ -30,18 +30,25 @@
             <EditText
                 android:id="@+id/etMensaje"
                 android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/btnDados"
                 android:hint="Escribe un mensaje..."
-                android:layout_width="300dp"
+                android:maxLength="510"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"></EditText>
             <ImageButton
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_toLeftOf="@+id/btnEnviarGrupo"
+                android:layout_alignParentEnd="true"
                 android:id="@+id/btnDados"
                 android:background="@drawable/ic_dice"/>
             <ImageButton
-                android:layout_marginLeft="5dp"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="6dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:id="@+id/btnEnviarGrupo"
                 android:background="@drawable/ic_send"/>
         </LinearLayout>

@@ -67,7 +67,7 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/relMensajes"
         android:layout_alignParentBottom="true"
         android:padding="5dp"
@@ -79,18 +79,20 @@
             android:id="@+id/txt_Mensaje"
             android:layout_centerVertical="true"
             android:hint="Escribe un mensaje..."
-            android:layout_width="365dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:maxLength="510"
             android:layout_height="wrap_content"></EditText>
 
         <ImageButton
             android:id="@+id/enviarMensaje"
             android:background="@drawable/ic_send"
-            android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/txt_Mensaje"
             android:layout_marginTop="8dp"
             android:layout_width="34dp"
             android:layout_height="34dp"></ImageButton>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </RelativeLayout>
