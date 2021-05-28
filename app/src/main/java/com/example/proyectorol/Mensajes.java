@@ -89,12 +89,14 @@ public class Mensajes extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 String chatcon = snapshot.getValue(String.class);
-
+                //Muestra si está conectado (en la misma activity de mensajes que el otro usuario)
+                //Si no, está en otra activity (hablando con otro usuario, etc)
                 if(snapshot.exists()){
                     if(chatcon.equals(fUser.getUid())){
                         estaConectado = true;
                         ic_conectado.setVisibility(View.VISIBLE);
                         ic_desconectado.setVisibility(View.GONE);
+                        actualizaMensajeVisto();
                     }else{
                         estaConectado = false;
                         ic_conectado.setVisibility(View.GONE);
@@ -167,6 +169,29 @@ public class Mensajes extends AppCompatActivity {
 
     }
 
+    private void actualizaMensajeVisto() {
+        ref_chat.child(id_chat_global).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    listaChats.removeAll(listaChats);
+                    for (DataSnapshot dShot : snapshot.getChildren()){
+                        Chat chat = dShot.getValue(Chat.class);
+                        if(estaConectado) chat.setVisto(true);
+                        listaChats.add(chat);
+                    }
+                    adaptadorChats.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
     //Método que lee los mensajes
     private void LeerMensajes() {
         ref_chat.child(id_chat_global).addValueEventListener(new ValueEventListener() {
@@ -176,6 +201,7 @@ public class Mensajes extends AppCompatActivity {
                     listaChats.removeAll(listaChats);
                     for (DataSnapshot dShot : snapshot.getChildren()){
                         Chat chat = dShot.getValue(Chat.class);
+                        if(estaConectado) chat.setVisto(true);
                         listaChats.add(chat);
                         setScroll();
                     }

@@ -71,7 +71,6 @@ public class AdaptadorChats extends RecyclerView.Adapter<AdaptadorChats.viewHold
 
         final SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 
-        //TODO: Peta
         if(chats.getFecha().equals(formatoFecha.format(calendario.getTime()))){
             holder.txt_fecha.setText("hoy "+chats.getHora());
         }else{
