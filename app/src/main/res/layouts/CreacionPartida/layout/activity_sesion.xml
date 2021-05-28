@@ -6,24 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".Sesion">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarGrupo"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarGrupo"
+            android:background="@color/colorPrimary"
+            android:theme="@style/MenuStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/nombreGrupo"
+                android:shadowColor="#000000"
+                android:shadowRadius="2"
+                android:shadowDx="1"
+                android:shadowDy="2"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:text="Nombre grupo"
+                android:textSize="17dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPrueba"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="45dp">
+        android:layout_below="@id/appbarGrupo"
+        android:layout_above="@id/linGrupo">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:paddingTop="5dp">
         <LinearLayout
+            android:id="@+id/linGrupo"
+            android:layout_alignParentBottom="true"
+            android:padding="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -53,4 +81,3 @@
                 android:background="@drawable/ic_send"/>
         </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
