@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,14 +12,17 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectorol.pojos.Partida;
@@ -56,14 +60,22 @@ public class Sesion extends AppCompatActivity {
     private String mensajeDados;
     private com.example.proyectorol.ficha.ListaClases ficha;
 
-
+    private TextView nombrePartida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sesion);
+        nombrePartida = findViewById(R.id.nombreGrupo);
+
+        Toolbar toolbar = findViewById(R.id.toolbarGrupo);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         if(getIntent().getSerializableExtra("DATOS")!=null){
             partida = (Partida) getIntent().getSerializableExtra("DATOS");
+            nombrePartida.setText(partida.getNombre());
         }
         if(getIntent().getSerializableExtra("DATOS")!=null){
             ficha = (com.example.proyectorol.ficha.ListaClases) getIntent().getSerializableExtra("FICHA");
@@ -258,42 +270,60 @@ private void init() {
         startActivity(intent);
     }
 
+    //Añadido: Captura de excepción que se produce al mirar jugadores, volver atrás y volver a entrar al grupo varias veces
+    // (https://stackoverflow.com/questions/9529504/unable-to-add-window-token-android-os-binderproxy-is-not-valid-is-your-activ)
+    //Solucionado la duplicidad al ver el nombre de usuarios cuando un usuario entra nuevo al chat o uno existen intenta unirse
     private void verJugadores() {
-        FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
-        DatabaseReference ref_fichas = baseDatos.getReference("partidas").child(partida.getIdPartida())
-                .child("jugadores");
-        ArrayList<String> nombreJugadores= new ArrayList<>();
-        ArrayList<Usuario> jugadores = new ArrayList<>();
-        //Con esto se coge toda la info de la tabla
-        ref_fichas.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
-                Usuario aux = null;
-                while(iterator.hasNext()){
-                    aux = iterator.next().getValue(Usuario.class);
+            FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+            DatabaseReference ref_fichas = baseDatos.getReference("partidas").child(partida.getIdPartida())
+                    .child("jugadores");
+            ArrayList<String> nombreJugadores = new ArrayList<>();
+            ArrayList<Usuario> jugadores = new ArrayList<>();
+            //Con esto se coge toda la info de la tabla
+            ref_fichas.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                    try {
+
+                        Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+                    Usuario aux = null;
+                    //Se limpia la lista previamente para evitar duplicidades
+                    nombreJugadores.removeAll(nombreJugadores);
+                    while (iterator.hasNext()) {
+                        aux = iterator.next().getValue(Usuario.class);
                         jugadores.add(aux);
                         nombreJugadores.add(aux.getNombre());
                     }
-                AlertDialog.Builder builder = new AlertDialog.Builder(Sesion.this);
-                builder.setTitle("Jugadores");
-                String[] items = new String[nombreJugadores.size()];
-                for(byte i=0;i<nombreJugadores.size();i++){
-                    items[i]=nombreJugadores.get(i);
-                }
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Sesion.this);
+                    builder.setTitle("Jugadores");
+                    String[] items = new String[nombreJugadores.size()];
+                    for (byte i = 0; i < nombreJugadores.size(); i++) {
+                        items[i] = nombreJugadores.get(i);
                     }
-                });
-                builder.setItems(items,null);
-                builder.create().show();
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.setItems(items, null);
+                    builder.create().show();
+                }catch (WindowManager.BadTokenException e){
+                        Log.e("CRASH","crash");
+                    }
+
             }
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-            }
-        });
+
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                }
+            });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     @Override
