@@ -7,7 +7,7 @@
     tools:context=".fragments.PartidasFragment">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linGrupos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,9 +17,22 @@
             android:id="@+id/listPartidas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
         </ListView>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/iconTipoPartida"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:visibility="gone"
+            android:layout_alignRight="@+id/listPartidas"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_partidaprivada">
+
+        </ImageView>
+
+    </RelativeLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

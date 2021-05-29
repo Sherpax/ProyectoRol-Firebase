@@ -72,8 +72,8 @@ public class CreacionPartida extends AppCompatActivity {
     private boolean compruebaPartida() {
         boolean datosCorrectos = false;
         boolean esNombreVacio = nombrePartida.getText().toString().isEmpty();
-
         boolean esPasswordVacia = password.getText().toString().isEmpty();
+
         if (esNombreVacio) {
             error = "Debes rellenar el nombre";
         } else {
@@ -96,7 +96,7 @@ public class CreacionPartida extends AppCompatActivity {
                 usuario=(Usuario)snapshot.getValue(Usuario.class);
                 if (compruebaPartida()) {
                     Partida partida;
-                    if(!partidaPublica.isSelected()){
+                    if(!partidaPublica.isChecked()){
                         partida = new Partida(nombrePartida.getText().toString()+"-"+user.getUid(),
                                 nombrePartida.getText().toString(),
                                 numJugadores.getSelectedItemPosition()+1,

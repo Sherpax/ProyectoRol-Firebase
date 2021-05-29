@@ -9,21 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.proyectorol.CreacionPartida;
 import com.example.proyectorol.R;
 import com.example.proyectorol.Sesion;
-import com.example.proyectorol.VerFicha;
-import com.example.proyectorol.pojos.ChatGrupo;
 import com.example.proyectorol.pojos.Partida;
 import com.example.proyectorol.pojos.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,8 +37,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
 
 
 public class PartidasFragment extends Fragment {
@@ -50,6 +46,8 @@ public class PartidasFragment extends Fragment {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private Usuario usuario;
     com.example.proyectorol.ficha.ListaClases ficha=null;
+
+    ImageView imagenPrivado; // {Pública,Privada}
 
     public PartidasFragment() {
         // Required empty public constructor
@@ -61,6 +59,7 @@ public class PartidasFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_partidas, container, false);
         ListView listPartidas = view.findViewById(R.id.listPartidas);
+        imagenPrivado = view.findViewById(R.id.iconTipoPartida);
         FloatingActionButton crearPartidaBot = view.findViewById(R.id.botCrearGrupo);
         crearPartidaBot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +88,14 @@ public class PartidasFragment extends Fragment {
                 Partida aux = null;
                 while (iterator.hasNext()) {
                     aux=iterator.next().getValue(Partida.class);
+                    //TODO: Ahora mismo no funciona bien (solo funciona si hay 1 item)
+                    //Hay que moverlo todo a un nuevo Adaptador
+                    if (aux.isPublica()) {
+                        imagenPrivado.setVisibility(View.GONE);
+                    } else {
+                        imagenPrivado.setVisibility(View.VISIBLE);
+                    }
+                    //
                     partidas.add(aux);
                     nombrePartidas.add(aux.getNombre());
                     }
