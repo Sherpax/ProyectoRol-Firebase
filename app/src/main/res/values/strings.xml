@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ProyectoRol</string>
+    <string name="app_name">Vampiro: Enmascarados</string>
     <string name="title_activity_creacion_partida">creacionPartida</string>
 
     <string-array name="OpcionesUsuario">
