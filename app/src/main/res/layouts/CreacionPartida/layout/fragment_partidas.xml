@@ -7,32 +7,30 @@
     tools:context=".fragments.PartidasFragment">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/linGrupos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ListView
-            android:id="@+id/listPartidas"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/barraProgreso"
+            android:visibility="visible"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+        </ProgressBar>
 
-        </ListView>
-
-        <ImageView
-            android:id="@+id/iconTipoPartida"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPartidas"
             android:visibility="gone"
-            android:layout_alignRight="@+id/listPartidas"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_partidaprivada">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
-        </ImageView>
+        </androidx.recyclerview.widget.RecyclerView>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
