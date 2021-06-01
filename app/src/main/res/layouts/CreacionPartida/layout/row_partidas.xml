@@ -25,15 +25,11 @@
             android:textSize="18dp"/>
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_toLeftOf="@+id/btnEnviarGrupo"
-            android:layout_alignParentEnd="true"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
             android:layout_gravity="center_vertical"
             android:id="@+id/iconPrivado"
-            android:background="@drawable/ic_partidaprivada"/>
-
-        //CUIDADO CON CENTER|CENTER
+            android:src="@drawable/ic_partidaprivada"/>
 
         <ProgressBar
             android:id="@+id/barraProgreso"
