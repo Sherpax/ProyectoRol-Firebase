@@ -96,7 +96,7 @@ public class OpcionesUsuario extends AppCompatActivity {
                         final BadgeDrawable badgeDrawable = tab.getOrCreateBadge();
                         //Añadimos el número de peticiones por aceptar etc
                         badgeDrawable.setBackgroundColor(
-                                ContextCompat.getColor(getApplicationContext(),R.color.colorAccent)
+                                ContextCompat.getColor(getApplicationContext(),R.color.solicitudColor)
                         );
                         //Esto muestra el número de solicitudes pendientes real
                         ref_solicitudes_contador.addValueEventListener(new ValueEventListener() {
@@ -324,8 +324,6 @@ public class OpcionesUsuario extends AppCompatActivity {
 
     //Abre el diálogo que muestra las posibles opciones del usuario al hacer click sobre el cardView
     public void abrirOpcionesUsuario(View view) {
-
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(OpcionesUsuario.this);
         builder

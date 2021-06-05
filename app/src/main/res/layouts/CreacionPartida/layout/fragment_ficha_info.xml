@@ -14,7 +14,7 @@
         android:id="@+id/creaFicha"
         android:layout_margin="10dp"
         android:layout_gravity="bottom|right"
-        android:backgroundTint="@color/red"
+        android:backgroundTint="@color/colorBotones"
         android:src="@drawable/ic_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -71,7 +71,6 @@ public class Mensajes extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sPref = getApplicationContext().getSharedPreferences("usuario_sp",MODE_PRIVATE);
 

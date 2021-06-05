@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -181,11 +182,16 @@ public class ElegirPersonaje extends AppCompatActivity {
             });
             dialog.show();
         }else{
-            ficha.setNombre(nombre.getText().toString());
-            //Cargar activity
-            Intent intentAtribs = new Intent(getApplicationContext(), ElegirAtributos.class);
-            intentAtribs.putExtra("Ficha",ficha);
-            startActivity(intentAtribs);
+            if(!nombre.getText().toString().isEmpty()) {
+                ficha.setNombre(nombre.getText().toString());
+                //Cargar activity
+                Intent intentAtribs = new Intent(getApplicationContext(), ElegirAtributos.class);
+                intentAtribs.putExtra("Ficha", ficha);
+                startActivity(intentAtribs);
+            }else{
+                Toast.makeText(this,
+                        "El nombre no debe estar vacío", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

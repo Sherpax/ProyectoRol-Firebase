@@ -7,9 +7,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardUserRow"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardCornerRadius="10dp"
-        android:backgroundTint="@color/colorPrimaryDark"
+        android:backgroundTint="#E64A19"
         android:elevation="10dp"
         android:layout_margin="5dp"
         android:layout_width="wrap_content"
@@ -35,7 +35,6 @@
                 android:layout_width="wrap_content"
                 android:maxWidth="220dp"
                 android:layout_height="wrap_content"/>
-
 
             <Button
                 android:id="@+id/botAgregar"
@@ -81,7 +80,7 @@
                 android:visibility="gone"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="#76FF03"
                 android:drawableLeft="@drawable/ic_checked"
                 android:textColor="@color/black"
                 android:textStyle="bold"

@@ -13,7 +13,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarGrupo"
-            android:background="@color/colorPrimary"
+            android:background="#E64A19"
             android:theme="@style/MenuStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -26,6 +26,7 @@
                 android:shadowDy="2"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/white"
+                android:textStyle="bold"
                 android:text="Nombre grupo"
                 android:textSize="17dp"
                 android:layout_width="wrap_content"
