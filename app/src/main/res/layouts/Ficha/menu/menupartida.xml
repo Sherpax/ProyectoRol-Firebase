@@ -4,13 +4,13 @@
     <item
         android:id="@+id/verJugadores"
         android:title="Ver jugadores"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/verFicha"
         android:title="Ver ficha"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
     <item
         android:id="@+id/cerrarPartida"
         android:title="Cerrar Partida"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 </menu>

@@ -12,8 +12,7 @@
         android:id="@+id/header_partida"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/vamp_mask"
-    />
+        android:src="@drawable/vamp_mask" />
 
     <EditText
         android:id="@+id/cNomPartida"
@@ -40,8 +39,7 @@
         android:visibility="invisible"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="100dp"
-        android:layout_below="@id/radioGrupo"
-         />
+        android:layout_below="@id/radioGrupo" />
 
     <Button
         android:id="@+id/bCrearPartida"
@@ -52,8 +50,7 @@
         android:layout_marginBottom="6dp"
         android:text="Crear Partida"
         android:layout_marginLeft="130dp"
-        android:layout_below="@id/cPassword"
-         />
+        android:layout_below="@id/cPassword" />
 
     <RadioGroup
         android:id="@+id/radioGrupo"
@@ -62,8 +59,7 @@
         android:gravity="center"
         android:layout_below="@id/cJugadores"
         android:layout_marginTop="13dp"
-        android:layout_marginLeft="130dp"
-        >
+        android:layout_marginLeft="130dp">
 
         <RadioButton
             android:id="@+id/rPublico"
@@ -88,8 +84,7 @@
         android:layout_marginTop="8dp"
         android:padding="10dp"
         android:layout_above="@id/cJugadores"
-        android:layout_below="@id/cNomPartida"
- />
+        android:layout_below="@id/cNomPartida" />
 
     <Spinner
         android:id="@+id/cJugadores"
@@ -100,8 +95,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="131dp"
-        android:entries="@array/numJugadores"
-         />
+        android:entries="@array/numJugadores" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -109,8 +103,6 @@
         android:text="Nº Jugadores"
         android:textSize="13sp"
         android:layout_alignRight="@id/cJugadores"
-        android:layout_below="@id/cJugadores"
-        >
-    </TextView>
+        android:layout_below="@id/cJugadores"></TextView>
 
 </RelativeLayout>

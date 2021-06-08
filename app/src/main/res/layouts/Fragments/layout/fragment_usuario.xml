@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.FragmentJugadores">
+    tools:context=".fragments.UsuarioFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardUser1"
-        android:visibility="gone"
-        android:backgroundTint="@color/colorPrimary"
+        android:id="@+id/cardUser"
+        android:backgroundTint="#FF7961"
         android:elevation="10dp"
+        android:onClick="abrirOpcionesUsuario"
         app:cardCornerRadius="11dp"
         android:layout_margin="9dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        tools:ignore="OnClick">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -24,16 +24,15 @@
             android:layout_height="wrap_content">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imagenPerfil1"
+                android:id="@+id/imagenPerfil"
                 android:layout_width="42dp"
                 android:layout_height="43dp"
                 app:civ_border_width="2dp"
                 android:layout_margin="5dp"
-                app:civ_border_color="@color/black"
-                />
+                app:civ_border_color="@color/black" />
 
             <TextView
-                android:id="@+id/nombreUser1"
+                android:id="@+id/nombreUser"
                 android:text="Nombre usuario"
                 android:gravity="center"
                 android:layout_margin="11dp"
@@ -45,31 +44,13 @@
                 android:shadowDx="1"
                 android:shadowDy="2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>
 
+
     </androidx.cardview.widget.CardView>
-
-        <ProgressBar
-            android:id="@+id/barraProgreso"
-            android:visibility="visible"
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </ProgressBar>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv1"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-
 
 
 </LinearLayout>

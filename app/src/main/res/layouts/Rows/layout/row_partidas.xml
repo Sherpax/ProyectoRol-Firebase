@@ -22,14 +22,14 @@
             android:shadowDy="2"
             android:shadowRadius="2"
             android:text="Nombre partida"
-            android:textSize="18dp"/>
+            android:textSize="18dp" />
 
         <ImageView
             android:layout_width="27dp"
             android:layout_height="27dp"
             android:layout_gravity="center_vertical"
             android:id="@+id/iconPrivado"
-            android:src="@drawable/ic_partidaprivada"/>
+            android:src="@drawable/ic_partidaprivada" />
 
         <ProgressBar
             android:id="@+id/barraProgreso"

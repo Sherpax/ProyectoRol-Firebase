@@ -34,7 +34,7 @@
                 android:shadowDy="2"
                 android:layout_width="wrap_content"
                 android:maxWidth="220dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/botAgregar"
@@ -47,7 +47,7 @@
                 android:textStyle="bold"
                 android:text="Agregar"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/botEnviado"
@@ -60,7 +60,7 @@
                 android:textStyle="bold"
                 android:text="Solicitud enviada"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/botSolicitudPendiente"
@@ -73,7 +73,7 @@
                 android:textStyle="bold"
                 android:text="Aceptar solicitud"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/botAmistades"
@@ -86,16 +86,16 @@
                 android:textStyle="bold"
                 android:text="Amigo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             //CUIDADO CON CENTER|CENTER
+
             <ProgressBar
                 android:id="@+id/barraProgreso"
                 android:visibility="gone"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </ProgressBar>
+                android:layout_height="wrap_content"></ProgressBar>
 
         </LinearLayout>
 

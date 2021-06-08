@@ -60,6 +60,7 @@ public class Mensajes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_mensajes);
 
         userName = findViewById(R.id.nombreUser);
@@ -69,9 +70,11 @@ public class Mensajes extends AppCompatActivity {
         botonEnviarMensaje = findViewById(R.id.enviarMensaje);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         sPref = getApplicationContext().getSharedPreferences("usuario_sp",MODE_PRIVATE);
 
         String usuario = getIntent().getExtras().getString("nombre");
