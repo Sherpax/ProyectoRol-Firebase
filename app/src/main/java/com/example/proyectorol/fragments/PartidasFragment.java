@@ -53,8 +53,6 @@ public class PartidasFragment extends Fragment {
     private Usuario usuario;
     com.example.proyectorol.ficha.ListaClases ficha=null;
 
-    ImageView imagenPrivado; // {Pública,Privada}
-
     public PartidasFragment() {
         // Required empty public constructor
     }
@@ -102,8 +100,6 @@ public class PartidasFragment extends Fragment {
                     adaptadorPartidas.notifyDataSetChanged();
                 }else{
                     barraProgeso.setVisibility(View.GONE);
-                    Toast.makeText(view.getContext(),
-                            "No existen usuarios", Toast.LENGTH_SHORT).show();
                 }
             }
 
