@@ -264,18 +264,13 @@ public class OpcionesUsuario extends AppCompatActivity {
                 if(!snapshot.exists()){
                     Usuario _user = new Usuario();
                     _user.setId(user.getUid());
-                    _user.setNombre(user.getDisplayName()); //TODO: Cambiar a nombre de usuario que se quiera usar (limitar length y lowercase)
-                    _user.setNick("Probando");
+                    _user.setNombre(user.getDisplayName());
                     _user.setEmail(user.getEmail());
                     _user.setFoto(user.getPhotoUrl().toString());
-                    _user.setEstado("Conectado"); //Modificar
-                    _user.setFecha("16/05/2021"); //Modificar
-                    _user.setHora("21:12");
                     _user.setNuevosMensajes(0);
                     _user.setSolicitudMensajes(0);
                     //Guardamos los cambios
                     ref_usuario.setValue(_user);
-                    Toast.makeText(OpcionesUsuario.this, "Yeah", Toast.LENGTH_SHORT).show();
                 }
             }
 
