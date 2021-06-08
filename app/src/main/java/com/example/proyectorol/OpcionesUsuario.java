@@ -353,7 +353,7 @@ public class OpcionesUsuario extends AppCompatActivity {
                                                     hasMap.put("nombre",txt_nombre.getText().toString());
                                                     ref_usuario.updateChildren(hasMap);
                                                     Toast.makeText(OpcionesUsuario.this,
-                                                            txt_nombre.getText().toString(), Toast.LENGTH_SHORT).show();
+                                                            "Nombre cambiado con éxito", Toast.LENGTH_SHORT).show();
                                                     dialog.dismiss();
                                                 }
                                             }
