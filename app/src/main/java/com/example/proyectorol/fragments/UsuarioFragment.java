@@ -21,7 +21,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,8 +31,7 @@ import org.jetbrains.annotations.NotNull;
 public class UsuarioFragment extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
-    private final DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()).child("nombre"); //Esto nos permite controlar las referencias al usuario por ID
-    private final DatabaseReference ref_usuario_foto = baseDatos.getReference("usuarios").child(user.getUid()).child("foto"); //Esto nos permite controlar las referencias al usuario por ID
+    private DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()).child("nombre"); //Esto nos permite controlar las referencias al usuario por ID
 
     public UsuarioFragment() {
         // Required empty public constructor
@@ -46,7 +44,7 @@ public class UsuarioFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_usuario, container, false);
         //Nombre de usuario y perfil
         TextView nombreUser = view.findViewById(R.id.nombreUser);
-        ImageView imgPerfil = view.findViewById(R.id.imagenPerfilUsuario);
+        ImageView imgPerfil = view.findViewById(R.id.imagenPerfil);
 
         //Podemos hacer un shared preferences y una opción para cambiar el nombre etc
         assert user != null;
@@ -69,27 +67,10 @@ public class UsuarioFragment extends Fragment {
             }
         });
 
-        ref_usuario_foto.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String usuarioFoto = snapshot.getValue(String.class);
-                if(snapshot.exists()){
-                    Picasso.get().load(usuarioFoto)
-                            .placeholder(R.drawable.vampirito)
-                            .into(imgPerfil);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
 
         //TODO: ÁNGEL, BUSCA IMÁGENES PARA LOS PERSONAJES QUE QUIERAS USAR...
         // (POR DEFECTO HE PUESTO UN VAMPIRO GRASIOSETE)
-
+        imgPerfil.setImageResource(R.drawable.vampirito);
 
         return view;
     }

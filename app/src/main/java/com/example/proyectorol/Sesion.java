@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -27,7 +25,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.proyectorol.adapters.AdaptadorChats;
 import com.example.proyectorol.pojos.Partida;
 import com.example.proyectorol.adapters.AdaptadorChatGrupal;
 import com.example.proyectorol.pojos.ChatGrupo;
@@ -48,8 +45,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import yuku.ambilwarna.AmbilWarnaDialog;
-
 public class Sesion extends AppCompatActivity {
 
     private Partida partida;
@@ -66,9 +61,6 @@ public class Sesion extends AppCompatActivity {
     private com.example.proyectorol.ficha.ListaClases ficha;
 
     private TextView nombrePartida;
-
-    private int mDefaultColor;
-    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,22 +80,12 @@ public class Sesion extends AppCompatActivity {
         if(getIntent().getSerializableExtra("DATOS")!=null){
             ficha = (com.example.proyectorol.ficha.ListaClases) getIntent().getSerializableExtra("FICHA");
         }
-
-        sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-
         init();
-    }
-
-    private void setScroll() {
-        rv.scrollToPosition(adaptadorChatGrupal.getItemCount()-1);
     }
 
 private void init() {
     database = FirebaseDatabase.getInstance();
     rv=findViewById(R.id.rvPrueba);
-
-    rv.setBackgroundColor(sharedPreferences.getInt("fondo_chat",R.color.white));
-
     editText = findViewById(R.id.etMensaje);
     imageButtonEnviar = findViewById(R.id.btnEnviarGrupo);
     imageButtonEnviar.setOnClickListener(new View.OnClickListener() {
@@ -220,8 +202,6 @@ private void init() {
                         nuevosMensajes.add(m);
                     }
                 }
-
-
                 mensajes=nuevosMensajes;
                 monstrarMensajes(mensajes);
             }
@@ -247,8 +227,6 @@ private void init() {
         rv.setLayoutManager(new LinearLayoutManager(Sesion.this));
         adaptadorChatGrupal = new AdaptadorChatGrupal(Sesion.this,mensajes,ref);
         rv.setAdapter(adaptadorChatGrupal);
-        adaptadorChatGrupal.notifyDataSetChanged();
-        setScroll();
     }
 
     @Override
@@ -269,9 +247,6 @@ private void init() {
                 break;
             case R.id.cerrarPartida:
                 cerrarPartida();
-                break;
-            case R.id.cambiarFondo:
-                opCambiaFondo();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -356,27 +331,4 @@ private void init() {
         super.onResume();
         mensajes=new ArrayList<>();
     }
-
-    public void opCambiaFondo() {
-        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, mDefaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
-
-            @Override
-            public void onCancel(AmbilWarnaDialog dialog) {
-            }
-
-            @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-                mDefaultColor = color;
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("fondo_chat",mDefaultColor);
-                editor.apply();
-                rv.setBackgroundColor(mDefaultColor);
-            }
-        });
-
-        colorPicker.getDialog().setTitle("Fondo chat");
-        colorPicker.show();
-    }
-
-
 }

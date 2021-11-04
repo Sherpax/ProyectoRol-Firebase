@@ -26,7 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -61,12 +60,6 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
 
         //holder.imagenPerfil.setImageResource(usuarios.getFoto()); //TOOD Cambiar
         holder.nomUser.setText(usuarios.getNombre());
-
-        if(usuarios.getFoto().equalsIgnoreCase("empty")){
-            Picasso.get().load(R.drawable.vampirito).into(holder.imgPerfil);
-        }else{
-            Picasso.get().load(usuarios.getFoto()).into(holder.imgPerfil);
-        }
 
         //Esto lo oculta si aparecemos nosotros mismos, se puede aplicar para ocultar gente que ya seamos amigos etc
 
@@ -230,7 +223,7 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
                 });
             }
         });
-/*
+
         holder.botAmigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,7 +264,7 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
             }
         });
 
-*/
+
 
     }
 
@@ -287,7 +280,6 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
         CardView cardView;
         Button botAniadir, botEnviado, botAceptarSolicitud, botAmigo;
         ProgressBar barraProgreso;
-        CircleImageView imgPerfil;
 
         public viewHolderAdapter(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -299,7 +291,6 @@ public class AdaptadorJugadores extends RecyclerView.Adapter<AdaptadorJugadores.
             botAceptarSolicitud = itemView.findViewById(R.id.botSolicitudPendiente);
             botAmigo = itemView.findViewById(R.id.botAmistades);
             barraProgreso = itemView.findViewById(R.id.barraProgreso);
-            imgPerfil = itemView.findViewById(R.id.imagenPerfilRow);
         }
     }
 }

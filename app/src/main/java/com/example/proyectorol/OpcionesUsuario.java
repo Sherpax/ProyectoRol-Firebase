@@ -1,15 +1,15 @@
 package com.example.proyectorol;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager2.widget.ViewPager2;
+
 import android.app.Dialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,21 +19,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager2.widget.ViewPager2;
-
 import com.example.proyectorol.adapters.Adaptador;
-import com.example.proyectorol.pojos.ChatCon;
 import com.example.proyectorol.pojos.Estado;
 import com.example.proyectorol.pojos.Usuario;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.badge.BadgeDrawable;
@@ -46,10 +35,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -58,29 +43,19 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class OpcionesUsuario extends AppCompatActivity {
-    Intent mServiceIntent;
-    private ComponentName commponent;
-    //
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private final FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
-    private final DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()); //Esto nos permite controlar las referencias al usuario por ID
-    private final DatabaseReference ref_solicitudes_contador = baseDatos.getReference("contador").child(user.getUid());
-    private final DatabaseReference ref_estados = baseDatos.getReference("estado").child(user.getUid());
-    private final StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(user.getUid());
-    DatabaseReference ref_NuevoMensaje = baseDatos.getReference("usuarios").child(user.getUid()).child("chatCon");
-    private NotificationCompat.Builder builder = null;
+    private FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
+    private DatabaseReference ref_usuario = baseDatos.getReference("usuarios").child(user.getUid()); //Esto nos permite controlar las referencias al usuario por ID
+    private DatabaseReference ref_solicitudes_contador = baseDatos.getReference("contador").child(user.getUid());
+    private DatabaseReference ref_estados = baseDatos.getReference("estado").child(user.getUid());
     private EditText txt_nombre;
     private View inflatedView;
-    private CircleImageView img_foto;
-    private final byte PICK_IMAGE = 1;
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opciones_usuario);
+        //  img_foto = findViewById(R.id.imagenPerfil);
 
         inflatedView = getLayoutInflater().inflate(R.layout.op_introducir_pass, null, false);
         txt_nombre = inflatedView.findViewById(R.id.txtcambiaNombre);
@@ -210,42 +185,8 @@ public class OpcionesUsuario extends AppCompatActivity {
 
         viewPager2.setCurrentItem(getIntent().getIntExtra("RECARGA",0));
 
-        createNotificationChannel(); //Creamos un canal para la notificación
-        ref_NuevoMensaje.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ChatCon chatCon = snapshot.getValue(ChatCon.class);
-                if(snapshot.exists()){
-                    builder = new NotificationCompat.Builder(OpcionesUsuario.this, "2");
-                    builder.setSmallIcon(R.mipmap.ic_launcher);
-                    builder.setAutoCancel(true); //Permite que se cancele al pulsar sobre ella
-                    builder.setContentTitle("Mensaje de "+chatCon.getRemitenteNick());
-                    builder.setContentText(chatCon.getUltimoMensaje());
-                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                    notificationManager.notify(2, builder.build());
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
 
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = getString(R.string.app_name);
-            String description = getString(R.string.app_name);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("2", name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
 
     private void reiniciarContador() {
         ref_solicitudes_contador.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -325,8 +266,7 @@ public class OpcionesUsuario extends AppCompatActivity {
                     _user.setId(user.getUid());
                     _user.setNombre(user.getDisplayName());
                     _user.setEmail(user.getEmail());
-                   // _user.setFoto(user.getPhotoUrl().toString());
-                    _user.setFoto("empty");
+                    _user.setFoto(user.getPhotoUrl().toString());
                     _user.setNuevosMensajes(0);
                     _user.setSolicitudMensajes(0);
                     //Guardamos los cambios
@@ -388,6 +328,7 @@ public class OpcionesUsuario extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case 0:
+                                AlertDialog dialogo;
                                 AlertDialog.Builder bulder2 = new AlertDialog.Builder(OpcionesUsuario.this);
                                 bulder2.setTitle("Cambiar Nombre").setView(R.layout.op_cambiar_nombe)
                                         .setPositiveButton("Aplicar", null)
@@ -422,95 +363,16 @@ public class OpcionesUsuario extends AppCompatActivity {
                                 dialog2.show();
                                 break;
                             case 1:
-
-                                Intent fotos = new Intent();
-                                fotos.setAction((Intent.ACTION_GET_CONTENT));
-                                fotos.setType("image/*");
-                                startActivityForResult(Intent.createChooser(fotos,"Seleciona foto perfil"),PICK_IMAGE);
-
-
-                                break;
-
-                            case 2:
                                 cerrarSesion();
                                 break;
                         }
                     }
-
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE) {
-
-            //Upload before anything else
-            String foto = data.getData().getLastPathSegment();
-            StorageReference imagenPerf = storageReference.child(foto);
-
-            Task uploadTask = imagenPerf.putFile(data.getData());
-
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-
-                    // Continue with the task to get the download URL
-                    return imagenPerf.getDownloadUrl();
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-
-                        AlertDialog.Builder bulder3 = new AlertDialog.Builder(OpcionesUsuario.this);
-                        bulder3.setTitle("Cambiar Foto Perfil").setView(R.layout.op_cambiar_foto_perfil)
-                                .setPositiveButton("Aplicar", null)
-                                .setNegativeButton("Cancelar",null);
-
-                        AlertDialog dialog3 = bulder3.create();
-
-                        dialog3.setOnShowListener(new DialogInterface.OnShowListener() {
-                            @Override
-                            public void onShow(DialogInterface dialog) {
-                                Dialog in = (Dialog)dialog;
-                                img_foto = in.findViewById(R.id.imgPerfil);
-                                Picasso.get().load(downloadUri).into(img_foto);
-                                Button boton = ((AlertDialog) dialog3).getButton(AlertDialog.BUTTON_POSITIVE);
-                                boton.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        actualizaFotoPerfilUsuario(downloadUri);
-                                    }
-                                });
-                            }
-                        });
-                        dialog3.show();
 
 
-                    } else {
-                        // Handle failures
-                        // ...
-                    }
-                }
-            });
-        }
-    }
 
-    private boolean  actualizaFotoPerfilUsuario(Uri urlFoto){
-        boolean exito;
-
-         HashMap hashMap = new HashMap<String,String>();
-         hashMap.put("foto",urlFoto.toString());
-         ref_usuario.updateChildren(hashMap);
-
-        exito = true;
-        return exito;
-    }
 }
