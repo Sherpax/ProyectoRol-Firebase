@@ -4,6 +4,7 @@
 
     <string-array name="OpcionesUsuario">
         <item>Cambiar nombre</item>
+        <item>Cambiar foto perfil</item>
         <item>Cerrar Sesión</item>
     </string-array>
 

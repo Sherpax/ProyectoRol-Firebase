@@ -18,6 +18,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imagenPerfilMensajes"
+                android:visibility="visible"
+                android:layout_width="37dp"
+                android:layout_height="37dp"
+                app:civ_border_width="2dp"
+                android:layout_margin="5dp"
+                app:civ_border_color="@color/black" />
+
             <TextView
                 android:shadowColor="#000000"
                 android:shadowRadius="2"
@@ -53,6 +62,24 @@
                 android:layout_height="wrap_content">
 
             </ImageView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_cambiafondo"
+                    android:onClick="OpCambiaFondo"
+                    android:layout_marginRight="26dp"
+
+                    />
+
+            </LinearLayout>
 
         </androidx.appcompat.widget.Toolbar>
 

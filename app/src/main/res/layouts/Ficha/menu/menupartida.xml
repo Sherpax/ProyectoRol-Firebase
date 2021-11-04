@@ -9,8 +9,15 @@
         android:id="@+id/verFicha"
         android:title="Ver ficha"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/cambiarFondo"
+        android:title="Cambiar Fondo"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/cerrarPartida"
         android:title="Cerrar Partida"
         app:showAsAction="never" />
+
+
 </menu>
