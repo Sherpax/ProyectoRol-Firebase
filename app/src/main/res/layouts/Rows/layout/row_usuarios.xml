@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardUserRow"
-        android:visibility="visible"
+        android:visibility="gone"
         app:cardCornerRadius="10dp"
         android:backgroundTint="#E64A19"
         android:elevation="10dp"
@@ -21,22 +21,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imagenPerfilRow"
-                android:visibility="visible"
-                android:layout_width="42dp"
-                android:layout_height="43dp"
-                app:civ_border_width="2dp"
-                android:layout_margin="5dp"
-                app:civ_border_color="@color/black" />
-
             <TextView
                 android:id="@+id/nombreUserRow"
                 android:text="Nombre usuario"
                 android:layout_margin="9dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="19dp"
+                android:textSize="18dp"
                 android:shadowColor="#000000"
                 android:shadowRadius="2"
                 android:shadowDx="1"

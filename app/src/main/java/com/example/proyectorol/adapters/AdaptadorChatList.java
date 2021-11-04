@@ -25,15 +25,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.viewHolderAdapterChatList> {
 
@@ -52,7 +49,8 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.vi
     @Override
     public viewHolderAdapterChatList onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_chatlist,parent,false);
-        return new viewHolderAdapterChatList(view);
+        viewHolderAdapterChatList holder = new viewHolderAdapterChatList(view);
+        return holder;
     }
 
     @Override
@@ -61,12 +59,6 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.vi
 
         holder.txt_Usuario.setText(usuarios.getNombre());
         //TODO imagen
-
-        if(usuarios.getFoto().equalsIgnoreCase("empty")){
-            Picasso.get().load(R.drawable.vampirito).into(holder.img_user);
-        }else{
-            Picasso.get().load(usuarios.getFoto()).into(holder.img_user);
-        }
 
         DatabaseReference ref_solicitudes = baseDatos.getReference("EstadoSolicitudes")
                                             .child(fUser.getUid())
@@ -153,7 +145,7 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.vi
                         if(snapshot.exists()){
                             Intent intent = new Intent(v.getContext(), Mensajes.class);
                             intent.putExtra("nombre",usuarios.getNombre());
-                            intent.putExtra("fotoPerfil",usuarios.getFoto());
+                            //intent.putExtra("img_user",usuarios.getFoto());
                             intent.putExtra("id_user",usuarios.getId());
                             intent.putExtra("id_unico",id_unico);
                             editor.putString("usuario_sp",usuarios.getId());
@@ -187,12 +179,12 @@ public class AdaptadorChatList extends RecyclerView.Adapter<AdaptadorChatList.vi
         CardView cardView;
         TextView txt_Conectado, txt_Desconectado;
         ImageView iconoConectado, iconoDesconectado;
-        CircleImageView img_user;
+
         public viewHolderAdapterChatList(@NonNull @NotNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.cardChatList);
             txt_Usuario = itemView.findViewById(R.id.nombreUserChatList);
-            img_user = itemView.findViewById(R.id.imagenPerfilChatRow);
+            //img_user = itemView.findViewById(R.id.)
             txt_Conectado = itemView.findViewById(R.id.txt_conectado);
             txt_Desconectado = itemView.findViewById(R.id.txt_desconectado);
             iconoConectado = itemView.findViewById(R.id.estadoConectado);

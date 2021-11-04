@@ -1,23 +1,23 @@
 package com.example.proyectorol;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.proyectorol.adapters.AdaptadorChats;
 import com.example.proyectorol.pojos.Chat;
-import com.example.proyectorol.pojos.ChatCon;
 import com.example.proyectorol.pojos.Estado;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,7 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,12 +34,10 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Mensajes extends AppCompatActivity {
     CircleImageView img_user;
     TextView userName;
-    CircleImageView imgPerfil;
     ImageView ic_conectado, ic_desconectado;
     EditText txt_Mensaje;
     ImageButton botonEnviarMensaje;
@@ -49,9 +46,6 @@ public class Mensajes extends AppCompatActivity {
     FirebaseDatabase baseDatos = FirebaseDatabase.getInstance();
     DatabaseReference ref_estados = baseDatos.getReference("estado").child(fUser.getUid());
     DatabaseReference ref_chat = baseDatos.getReference("chats");
-    DatabaseReference ref_ObtenerNomUsuario = baseDatos.getReference("usuarios").child(fUser.getUid()).child("nombre");
-
-
 
 
     //Chat global referencias
@@ -63,11 +57,6 @@ public class Mensajes extends AppCompatActivity {
     AdaptadorChats adaptadorChats;
     ArrayList<Chat> listaChats;
 
-    //Otros
-    private int mDefaultColor;
-    private SharedPreferences sharedPreferences;
-    private String nombreUsuarioActual;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,13 +64,10 @@ public class Mensajes extends AppCompatActivity {
         setContentView(R.layout.activity_mensajes);
 
         userName = findViewById(R.id.nombreUser);
-        imgPerfil = findViewById(R.id.imagenPerfilMensajes);
         ic_conectado = findViewById(R.id.icon_conectado);
         ic_desconectado = findViewById(R.id.icon_desconectado);
         txt_Mensaje = findViewById(R.id.txt_Mensaje);
         botonEnviarMensaje = findViewById(R.id.enviarMensaje);
-
-        sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -92,30 +78,10 @@ public class Mensajes extends AppCompatActivity {
         sPref = getApplicationContext().getSharedPreferences("usuario_sp",MODE_PRIVATE);
 
         String usuario = getIntent().getExtras().getString("nombre");
-        String fotoPerfil = getIntent().getExtras().getString("fotoPerfil");
         String id_user = getIntent().getExtras().getString("id_user");
         id_chat_global = getIntent().getExtras().getString("id_unico");
 
         userName.setText(usuario);
-
-
-        ref_ObtenerNomUsuario.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                 nombreUsuarioActual = snapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        if(fotoPerfil.equalsIgnoreCase("empty")){
-            Picasso.get().load(R.drawable.vampirito).into(imgPerfil);
-        }else{
-            Picasso.get().load(fotoPerfil).into(imgPerfil);
-        }
 
         final String id_user_sp = sPref.getString("usuario_sp","");
         final DatabaseReference ref = baseDatos.getReference("estado").child(id_user_sp).child("chatcon");
@@ -160,13 +126,6 @@ public class Mensajes extends AppCompatActivity {
 
                     String idPush = ref_chat.push().getKey();
 
-                    //Crear registro si no existe del chat en usuario
-                    ChatCon chatCon = new ChatCon(fUser.getUid(),nombreUsuarioActual,mensaje);
-
-                    DatabaseReference ref_NuevoMensaje = baseDatos.getReference("usuarios").child(id_user).child("chatCon");
-
-                    ref_NuevoMensaje.setValue(chatCon);
-
                     if(estaConectado){
                         Chat chatMensaje = new Chat(
                                 idPush,
@@ -176,8 +135,8 @@ public class Mensajes extends AppCompatActivity {
                                 formatTiempo.format(calendario.getTime()),
                                 estaConectado);
                         ref_chat.child(id_chat_global).child(idPush).setValue(chatMensaje);
-                        //Toast.makeText(Mensajes.this,
-                        //        "Mensaje enviado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Mensajes.this,
+                                "Mensaje enviado", Toast.LENGTH_SHORT).show();
                         //Reiniciamos el EditText para enviar el siguiente mensaje
                         txt_Mensaje.setText("");
                     }else{
@@ -189,8 +148,8 @@ public class Mensajes extends AppCompatActivity {
                                 formatTiempo.format(calendario.getTime()),
                                 estaConectado);
                         ref_chat.child(id_chat_global).push().setValue(chatMensaje);
-                      //  Toast.makeText(Mensajes.this,
-                     //           "Mensaje enviado", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Mensajes.this,
+                                "Mensaje enviado", Toast.LENGTH_SHORT).show();
                         //Reiniciamos el EditText para enviar el siguiente mensaje
                         txt_Mensaje.setText("");
                     }
@@ -207,8 +166,6 @@ public class Mensajes extends AppCompatActivity {
         listaChats = new ArrayList<>();
         adaptadorChats = new AdaptadorChats(listaChats,this);
         rv_chats.setAdapter(adaptadorChats);
-
-        rv_chats.setBackgroundColor(sharedPreferences.getInt("fondo_chat",R.color.white));
 
         LeerMensajes();
 
@@ -313,27 +270,6 @@ public class Mensajes extends AppCompatActivity {
 
             }
         });
-    }
-
-    public void OpCambiaFondo(View v) {
-        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, mDefaultColor, new AmbilWarnaDialog.OnAmbilWarnaListener() {
-
-            @Override
-            public void onCancel(AmbilWarnaDialog dialog) {
-            }
-
-            @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-                mDefaultColor = color;
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("fondo_chat",mDefaultColor);
-                editor.apply();
-                rv_chats.setBackgroundColor(mDefaultColor);
-            }
-        });
-
-        colorPicker.getDialog().setTitle("Fondo chat");
-        colorPicker.show();
     }
 
 }
